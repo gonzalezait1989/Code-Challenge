@@ -1,13 +1,21 @@
 package com.wefox.challenge.model;
 
-import lombok.Builder;
-import lombok.Data;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
 @Table(name="PRODUCT")
@@ -35,10 +43,10 @@ public class Product {
     @CreationTimestamp
     @Column(name = "created__c", updatable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date created;
+    private LocalDateTime created;
 
     @UpdateTimestamp
     @Column(name = "updated__c")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date updated;
+    private LocalDateTime updated;
 }

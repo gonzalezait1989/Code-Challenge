@@ -1,7 +1,6 @@
 package com.wefox.challenge.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,8 +15,6 @@ import javax.persistence.Temporal;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
@@ -49,11 +46,11 @@ public class Account {
 	@CreationTimestamp
     @Column(name = "created__c", updatable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date created;
+    private LocalDateTime created;
 
     @UpdateTimestamp
     @Column(name = "updated__c")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date updated;
+    private LocalDateTime updated;
 
 }

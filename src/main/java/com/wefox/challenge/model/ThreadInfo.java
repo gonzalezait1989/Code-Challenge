@@ -14,7 +14,7 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class ThreadInfo {
 
-	private Long stepNo;
+	private Long threadNo;
 	private String stepName;
 	private LocalDateTime start;
 	private LocalDateTime finish;

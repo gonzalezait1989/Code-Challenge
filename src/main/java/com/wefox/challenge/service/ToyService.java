@@ -28,26 +28,12 @@ public class ToyService {
      * @return
      */
     private ToyVO getToyVO(Toy toy) {
-        return ToyVO.builder()
+        return toy != null ? ToyVO.builder()
                 .created(toy.getCreated())
                 .updated(toy.getUpdated())
                 .id(toy.getId())
                 .name(toy.getName())
-                .build();
-    }
-
-    /**
-     * Transform ToyVO to Toy
-     * @param toyVO
-     * @return
-     */
-    private Toy getToy(ToyVO toyVO) {
-        return Toy.builder()
-                .created(toyVO.getCreated())
-                .updated(toyVO.getUpdated())
-                .id(toyVO.getId())
-                .name(toyVO.getName())
-                .build();
+                .build() : ToyVO.builder().build();
     }
 
 	

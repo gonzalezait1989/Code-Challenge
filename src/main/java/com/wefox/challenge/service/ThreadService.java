@@ -1,6 +1,7 @@
 package com.wefox.challenge.service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -19,12 +20,16 @@ import com.wefox.challenge.vo.ThreadInfoVO;
 public class ThreadService {
 
 	public List<ThreadInfoVO> runThreads() {
+		
+		//Linkedlist in order to keep the order of the thread info as the threads finish
+		List<ThreadInfoVO> threadInfoVOs = new LinkedList<ThreadInfoVO>();
+		
 		//Launches 3 concurrent threads 
-		List<ThreadInfoVO> threadInfoVOs = new ArrayList<ThreadInfoVO>();
 		ExecutorService executor = Executors.newFixedThreadPool(3);
 		List<Future<ThreadInfo>> futures = new ArrayList<Future<ThreadInfo>>();
-		Callable<ThreadInfo> callable = new ThreadInfoCallable();
+		
 		for (int i = 0; i < 3; i++) {
+			Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 1");
 			Future<ThreadInfo> future = executor.submit(callable);
 			futures.add(future);
 		}
@@ -41,6 +46,8 @@ public class ThreadService {
 		//Launches one thread
 		executor = Executors.newFixedThreadPool(1);
 		futures = new ArrayList<Future<ThreadInfo>>();
+		Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 2");
+
 		Future<ThreadInfo> future = executor.submit(callable);
 
 		//Recovers it status
@@ -55,11 +62,12 @@ public class ThreadService {
 	}
 
 	private ThreadInfoVO getThreadInfoVO(ThreadInfo threadInfo) {
-		return ThreadInfoVO.builder()
-				.stepNo(threadInfo.getStepNo())
+		return threadInfo != null ?
+				ThreadInfoVO.builder()
+				.threadNo(threadInfo.getThreadNo())
 				.stepName(threadInfo.getStepName())
 				.start(threadInfo.getStart())
 				.finish(threadInfo.getFinish())
-				.build();
+				.build() : ThreadInfoVO.builder().build();
 	}
 }

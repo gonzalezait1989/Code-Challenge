@@ -16,13 +16,17 @@ import me.sargunvohra.lib.pokekotlin.model.Pokemon;
 @Service
 public class PokemonService {
 
+	private PokeApiClient pokeApiClient =  new PokeApiClient();
+	
 	/**
 	 * Finds pokemons by name.
 	 * @param name the name of the pokemon.
 	 * @return an optional List of Pokemons if found.
 	 */
 	public Optional<List<PokemonVO>> findByName(String name) {
-		PokeApiClient pokeApi = new PokeApiClient();
+		if(name == null || name.isBlank()) {
+			return Optional.empty();
+		}
 		int elements = 100;
 		int offset = 0;
 		List<Pokemon> pokemons = new ArrayList<Pokemon>();
@@ -32,10 +36,10 @@ public class PokemonService {
 			// A list of referenced resources. I am fetching all the resources this way
 			// because the API does not provide an endpoint to search by proximations of the name (startswith),
 			// just the full name
-			NamedApiResourceList pokemonList = pokeApi.getPokemonList(elements, offset);
+			NamedApiResourceList pokemonList = this.pokeApiClient.getPokemonList(offset, elements);
 			pokemonList.component4().parallelStream().forEach(resource -> {
 				if (resource.getName().toLowerCase().startsWith(name.toLowerCase())) {
-					pokemons.add(pokeApi.getPokemon(resource.getId()));
+					pokemons.add(this.pokeApiClient.getPokemon(resource.getId()));
 				}
 			});
 			// When we had less than 100 elements, this will be the end of the looping
@@ -49,14 +53,14 @@ public class PokemonService {
 			getPokemonVO(pokemon)).collect(Collectors.toList()));
 
 	}
-
+	
 	/**
 	 * Wraps a Pokemon into a Pokemon VO.
 	 * @param pokemon the pokemon to wrap
 	 * @return the pokemon VO to return on the Controller
 	 */
 	private PokemonVO getPokemonVO(Pokemon pokemon) {
-		return PokemonVO.builder().pokemon(pokemon).build();
+		return pokemon != null ? PokemonVO.builder().pokemon(pokemon).build() : PokemonVO.builder().build();
 	}
 	
 	

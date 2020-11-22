@@ -47,7 +47,8 @@ public class ProductService {
      * @return
      */
     private ProductVO getProductVO(Product product) {
-        return ProductVO.builder()
+        return product != null ?
+        		ProductVO.builder()
                 .created(product.getCreated())
                 .updated(product.getUpdated())
                 .id(product.getId())
@@ -55,7 +56,7 @@ public class ProductService {
                 .name(product.getName())
                 .price(product.getPrice())
                 .stock(product.getStock())
-                .build();
+                .build() : ProductVO.builder().build();
     }
 
     /**
@@ -64,12 +65,12 @@ public class ProductService {
      * @return
      */
     private Product getProduct(ProductVO product) {
-        return Product.builder()
+        return product != null ? Product.builder()
                 .id(product.getId())
                 .description(product.getDescription())
                 .name(product.getName())
                 .price(product.getPrice())
                 .stock(product.getStock())
-                .build();
+                .build() : Product.builder().build();
     }
 }

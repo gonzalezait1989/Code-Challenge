@@ -1,6 +1,6 @@
 package com.wefox.challenge.vo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +10,6 @@ import lombok.Data;
 public class ToyVO {
 	private Long id;
 	private String name;
-    private Date created;
-    private Date updated;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 }

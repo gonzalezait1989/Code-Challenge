@@ -1,5 +1,6 @@
 package com.wefox.challenge.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,16 +59,16 @@ public class AccountService {
      * @return
      */
     private AccountVO getAccountVO(Account account) {
-        return AccountVO.builder()
+        return account  != null ? AccountVO.builder()
                 .created(account.getCreated())
                 .updated(account.getUpdated())
                 .id(account.getId())
                 .age(account.getAge())
                 .email(account.getEmail())
                 .name(account.getName())
-                .addresses(account.getAddresses().parallelStream().map(address ->  addressService.getAddressVO(address))
-                		.collect(Collectors.toList()))
-                .build();
+                .addresses(account.getAddresses() != null ? account.getAddresses().parallelStream().map(address ->  addressService.getAddressVO(address))
+                		.collect(Collectors.toList()) : Collections.emptyList())
+                .build() : AccountVO.builder().build();
     }
 
     /**
@@ -76,15 +77,15 @@ public class AccountService {
      * @return
      */
     private Account getAccount(AccountVO accountVO) {
-    	return Account.builder()
+    	return accountVO != null ? Account.builder()
                 .created(accountVO.getCreated())
                 .updated(accountVO.getUpdated())
                 .id(accountVO.getId())
                 .age(accountVO.getAge())
                 .email(accountVO.getEmail())
                 .name(accountVO.getName())
-                .addresses(accountVO.getAddresses().parallelStream().map(addressVO -> addressService.getAddress(addressVO))
-                		.collect(Collectors.toList()))
-                .build();
+                .addresses(accountVO.getAddresses() != null ? accountVO.getAddresses() .parallelStream().map(addressVO -> addressService.getAddress(addressVO))
+                		.collect(Collectors.toList()) : Collections.emptyList())
+                .build() : Account.builder().build();
     }
 }

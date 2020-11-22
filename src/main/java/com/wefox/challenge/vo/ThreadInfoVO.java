@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ThreadInfoVO {
-	private Long stepNo;
+	private Long threadNo;
 	private String stepName;
 	private LocalDateTime start;
 	private LocalDateTime finish;

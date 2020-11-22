@@ -9,14 +9,20 @@ import com.wefox.challenge.model.ThreadInfo;
 
 public class ThreadInfoCallable implements Callable<ThreadInfo> {
 
+	private String stepName;
+	
 	private static final AtomicLong ai1 = new AtomicLong();
 	
+	public ThreadInfoCallable(String stepName) {
+		this.stepName = stepName;
+	}
+
 	@Override
 	public ThreadInfo call() throws Exception {
-		Long stepNo = ai1.incrementAndGet();
+		Long threadNo = ai1.incrementAndGet();
 		ThreadInfo threadInfo = new ThreadInfo();
-		threadInfo.setStepNo(stepNo);
-		threadInfo.setStepName("Callable ".concat(stepNo.toString()));
+		threadInfo.setThreadNo(threadNo);
+		threadInfo.setStepName(stepName);
 		threadInfo.setStart(OffsetDateTime.now(ZoneOffset.UTC).toLocalDateTime());
 		Thread.sleep(5000);
 		threadInfo.setFinish(OffsetDateTime.now(ZoneOffset.UTC).toLocalDateTime());

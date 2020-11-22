@@ -1,6 +1,6 @@
 package com.wefox.challenge.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,10 +33,10 @@ public class Toy {
 	@CreationTimestamp
     @Column(name = "created__c", updatable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date created;
+    private LocalDateTime created;
 
     @UpdateTimestamp
     @Column(name = "updated__c")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date updated;
+    private LocalDateTime updated;
 }

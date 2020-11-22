@@ -1,6 +1,6 @@
 package com.wefox.challenge.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -46,11 +46,11 @@ public class Account {
 	@CreationTimestamp
     @Column(name = "created__c", updatable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private LocalDateTime created;
+    private Date created;
 
     @UpdateTimestamp
     @Column(name = "updated__c")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private LocalDateTime updated;
+    private Date updated;
 
 }

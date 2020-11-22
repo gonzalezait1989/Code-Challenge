@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import com.wefox.challenge.messaging.producers.PokemonMessageProducer;
 import com.wefox.challenge.vo.PokemonVO;
 
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
@@ -17,6 +20,9 @@ import me.sargunvohra.lib.pokekotlin.model.Pokemon;
 public class PokemonService {
 
 	private PokeApiClient pokeApiClient =  new PokeApiClient();
+	
+	@Autowired
+	private PokemonMessageProducer pokemonMessageProducer;
 	
 	/**
 	 * Finds pokemons by name.
@@ -43,8 +49,8 @@ public class PokemonService {
 				}
 			});
 			// When we had less than 100 elements, this will be the end of the looping
-			elements = pokemonList.getCount();
-			offset += pokemonList.getCount();
+			elements = pokemonList.getResults().size();
+			offset += pokemonList.getResults().size();
 		}
 
 		if (pokemons.isEmpty())
@@ -52,6 +58,19 @@ public class PokemonService {
 		return Optional.of(pokemons.parallelStream().map(pokemon -> 
 			getPokemonVO(pokemon)).collect(Collectors.toList()));
 
+	}
+	
+	/**
+	 * Calls the Message Producer to create a new request to search for Pokemons.
+	 * @param name the name of the Pokemon.
+	 * @return the generated message.
+	 */
+	public Optional<Message<String>> findByNameAsync(String name){
+		Message<String> message = this.pokemonMessageProducer.produceFindByName(name);
+		if(message == null) {
+			return Optional.empty();
+		}
+		return Optional.of(message);
 	}
 	
 	/**

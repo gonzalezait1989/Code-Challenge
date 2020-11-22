@@ -1,7 +1,6 @@
 package com.wefox.challenge.callables;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,9 +22,9 @@ public class ThreadInfoCallable implements Callable<ThreadInfo> {
 		ThreadInfo threadInfo = new ThreadInfo();
 		threadInfo.setThreadNo(threadNo);
 		threadInfo.setStepName(stepName);
-		threadInfo.setStart(OffsetDateTime.now(ZoneOffset.UTC).toLocalDateTime());
+		threadInfo.setStart(Calendar.getInstance().getTime());
 		Thread.sleep(5000);
-		threadInfo.setFinish(OffsetDateTime.now(ZoneOffset.UTC).toLocalDateTime());
+		threadInfo.setFinish(Calendar.getInstance().getTime());
 		return threadInfo;
 	}
 

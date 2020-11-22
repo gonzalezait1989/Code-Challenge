@@ -1,6 +1,6 @@
 package com.wefox.challenge.vo;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Builder;
@@ -14,6 +14,6 @@ public class AccountVO {
 	private String email;
 	private Integer age;
 	private List<AddressVO> addresses;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+    private Date created;
+    private Date updated;
 }

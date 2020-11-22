@@ -40,7 +40,7 @@ public class ThreadServiceTest {
 				.filter(threadInfo -> threadInfo.getStepName().equals("Step 2")).collect(Collectors.toList());
 
 		assertTrue(threadInfoStep1.parallelStream()
-				.allMatch(threadInfo -> threadInfo.getFinish().isBefore(threadInfoStep2.get(0).getStart())));
+				.allMatch(threadInfo -> threadInfo.getFinish().before(threadInfoStep2.get(0).getStart())));
 	}
 
 }

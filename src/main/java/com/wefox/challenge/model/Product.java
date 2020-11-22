@@ -1,7 +1,7 @@
 package com.wefox.challenge.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,13 +40,13 @@ public class Product {
     @Column(name = "stock__c")
     private Integer stock;
 
-    @CreationTimestamp
+	@CreationTimestamp
     @Column(name = "created__c", updatable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private LocalDateTime created;
+    private Date created;
 
     @UpdateTimestamp
     @Column(name = "updated__c")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private LocalDateTime updated;
+    private Date updated;
 }

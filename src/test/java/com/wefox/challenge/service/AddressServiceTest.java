@@ -1,7 +1,9 @@
 package com.wefox.challenge.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.OffsetDateTime;
+
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,8 +23,8 @@ public class AddressServiceTest {
 		Address address  = new Address();
 		address.setId(1l);
 		address.setAddress("My street 1234");
-		address.setCreated(OffsetDateTime.now().toLocalDateTime());
-		address.setUpdated(OffsetDateTime.now().toLocalDateTime());
+		address.setCreated(Calendar.getInstance().getTime());
+		address.setUpdated(Calendar.getInstance().getTime());
 		
 		AddressVO addressVO = this.addressService.getAddressVO(address);
 		
@@ -38,8 +40,8 @@ public class AddressServiceTest {
 		AddressVO addressVO  = AddressVO.builder().build();
 		addressVO.setId(1l);
 		addressVO.setAddress("My street 1234");
-		addressVO.setCreated(OffsetDateTime.now().toLocalDateTime());
-		addressVO.setUpdated(OffsetDateTime.now().toLocalDateTime());
+		addressVO.setCreated(Calendar.getInstance().getTime());
+		addressVO.setUpdated(Calendar.getInstance().getTime());
 		
 		Address address = this.addressService.getAddress(addressVO);
 		

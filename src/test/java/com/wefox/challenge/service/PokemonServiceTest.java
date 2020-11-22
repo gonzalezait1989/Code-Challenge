@@ -6,11 +6,16 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.integration.support.MessageBuilder;
+
+import com.wefox.challenge.messaging.producers.PokemonMessageProducer;
 
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 import me.sargunvohra.lib.pokekotlin.model.NamedApiResource;
@@ -31,10 +36,13 @@ public class PokemonServiceTest {
 	@InjectMocks
 	private PokemonService pokemonService;
 	
+	@Mock
+	private PokemonMessageProducer pokemonMessageProducer;
+	
 	PokeApiClient pokeApiClient = Mockito.mock(PokeApiClient.class);
-		
-	@Test
-	public void testFindByName() throws Exception {
+	
+	@Before
+	public void prepareDataSet() {
 		String next = "\"https://pokeapi.co/api/v2/pokemon?offset=200&limit=100\"";
 		String previous = "\"https://pokeapi.co/api/v2/pokemon?offset=0&limit=100\"";		
 		int count = 12;
@@ -76,8 +84,20 @@ public class PokemonServiceTest {
 		when(pokeApiClient.getPokemon(9)).thenReturn(blastoise);
 		when(pokeApiClient.getPokemon(12)).thenReturn(butterfree);
 		
+		when(pokemonMessageProducer.produceFindByName(null)).thenReturn(null);
+		when(pokemonMessageProducer.produceFindByName("")).thenReturn(null);
+		when(pokemonMessageProducer.produceFindByName(" ")).thenReturn(null);
+		when(pokemonMessageProducer.produceFindByName("aitor")).thenReturn(MessageBuilder.withPayload("aitor").build());
+		when(pokemonMessageProducer.produceFindByName("bulbasaur")).thenReturn(MessageBuilder.withPayload("bulbasaur").build());
+
+	}
+	
+	@Test
+	public void testFindByName() throws Exception {
 		assertThat(pokemonService.findByName("")).isNotNull();
 		assertThat(pokemonService.findByName("")).isEmpty();
+		assertThat(pokemonService.findByName(" ")).isNotNull();
+		assertThat(pokemonService.findByName(" ")).isEmpty();
 		assertThat(pokemonService.findByName("x")).isNotNull();
 		assertThat(pokemonService.findByName("x")).isEmpty();
 		assertThat(pokemonService.findByName("aitor")).isNotNull();
@@ -96,8 +116,23 @@ public class PokemonServiceTest {
 		assertThat(pokemonService.findByName("cHar").get()).hasSize(3);
 		assertThat(pokemonService.findByName("b")).isNotNull();
 		assertThat(pokemonService.findByName("b")).isNotEmpty();
-		assertThat(pokemonService.findByName("b").get()).hasSize(3);
-		
+		assertThat(pokemonService.findByName("b").get()).hasSize(3);	
+	}
+	
+	@Test
+	public void testFindByNameAsync() {
+		assertThat(pokemonService.findByNameAsync(null)).isNotNull();
+		assertThat(pokemonService.findByNameAsync(null)).isEmpty();
+		assertThat(pokemonService.findByNameAsync("")).isNotNull();
+		assertThat(pokemonService.findByNameAsync("")).isEmpty();
+		assertThat(pokemonService.findByNameAsync(" ")).isNotNull();
+		assertThat(pokemonService.findByNameAsync(" ")).isEmpty();
+		assertThat(pokemonService.findByNameAsync("aitor")).isNotNull();
+		assertThat(pokemonService.findByNameAsync("aitor")).isNotEmpty();
+		assertThat(pokemonService.findByNameAsync("aitor").get().getPayload()).isEqualTo("aitor");
+		assertThat(pokemonService.findByNameAsync("bulbasaur")).isNotNull();
+		assertThat(pokemonService.findByNameAsync("bulbasaur")).isNotEmpty();
+		assertThat(pokemonService.findByNameAsync("bulbasaur").get().getPayload()).isEqualTo("bulbasaur");
 	}
 
 }

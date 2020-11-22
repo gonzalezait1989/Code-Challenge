@@ -1,6 +1,6 @@
 package com.wefox.challenge.vo;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +10,6 @@ import lombok.Data;
 public class ThreadInfoVO {
 	private Long threadNo;
 	private String stepName;
-	private LocalDateTime start;
-	private LocalDateTime finish;
+    private Date start;
+    private Date finish;
 }

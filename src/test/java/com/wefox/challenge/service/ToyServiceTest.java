@@ -2,8 +2,7 @@ package com.wefox.challenge.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -31,8 +30,8 @@ public class ToyServiceTest {
 		Toy t = new Toy();
 		t.setId(1l);
 		t.setName("Pokemon Toy");
-		t.setCreated(OffsetDateTime.now(ZoneId.systemDefault()).toLocalDateTime());
-		t.setUpdated(OffsetDateTime.now(ZoneId.systemDefault()).toLocalDateTime());
+		t.setCreated(Calendar.getInstance().getTime());
+		t.setUpdated(Calendar.getInstance().getTime());
 		
 		Mockito.when(toyRespository.findById(1l)).thenReturn(Optional.of(t));
 		Mockito.when(toyRespository.findById(2l)).thenReturn(Optional.empty());

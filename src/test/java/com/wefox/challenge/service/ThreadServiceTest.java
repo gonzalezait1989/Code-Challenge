@@ -18,29 +18,31 @@ import com.wefox.challenge.vo.ThreadInfoVO;
 @RunWith(MockitoJUnitRunner.class)
 public class ThreadServiceTest {
 
-	@InjectMocks
-	private ThreadService threadService;
+  @InjectMocks
+  private ThreadService threadService;
 
-	@Mock
-	private ExecutorService executor;
+  @Mock
+  private ExecutorService executor;
 
-	@Test
-	public void testRunThreads() throws Exception {
-		List<ThreadInfoVO> threadInfoList = this.threadService.runThreads();
-		assertThat(threadInfoList).isNotNull();
-		assertThat(threadInfoList).hasSize(4);
-		assertThat(threadInfoList.parallelStream().filter(threadInfo -> threadInfo.getStepName().equals("Step 1")))
-				.hasSize(3);
-		assertThat(threadInfoList.parallelStream().filter(threadInfo -> threadInfo.getStepName().equals("Step 2")))
-				.hasSize(1);
+  @Test
+  public void testRunThreads() throws Exception {
+    List<ThreadInfoVO> threadInfoList = this.threadService.runThreads();
+    assertThat(threadInfoList).isNotNull();
+    assertThat(threadInfoList).hasSize(4);
+    assertThat(threadInfoList.parallelStream()
+        .filter(threadInfo -> threadInfo.getStepName().equals("Step 1"))).hasSize(3);
+    assertThat(threadInfoList.parallelStream()
+        .filter(threadInfo -> threadInfo.getStepName().equals("Step 2"))).hasSize(1);
 
-		List<ThreadInfoVO> threadInfoStep1 = threadInfoList.parallelStream()
-				.filter(threadInfo -> threadInfo.getStepName().equals("Step 1")).collect(Collectors.toList());
-		List<ThreadInfoVO> threadInfoStep2 = threadInfoList.parallelStream()
-				.filter(threadInfo -> threadInfo.getStepName().equals("Step 2")).collect(Collectors.toList());
+    List<ThreadInfoVO> threadInfoStep1 = threadInfoList.parallelStream()
+        .filter(threadInfo -> threadInfo.getStepName().equals("Step 1"))
+        .collect(Collectors.toList());
+    List<ThreadInfoVO> threadInfoStep2 = threadInfoList.parallelStream()
+        .filter(threadInfo -> threadInfo.getStepName().equals("Step 2"))
+        .collect(Collectors.toList());
 
-		assertTrue(threadInfoStep1.parallelStream()
-				.allMatch(threadInfo -> threadInfo.getFinish().before(threadInfoStep2.get(0).getStart())));
-	}
+    assertTrue(threadInfoStep1.parallelStream()
+        .allMatch(threadInfo -> threadInfo.getFinish().before(threadInfoStep2.get(0).getStart())));
+  }
 
 }

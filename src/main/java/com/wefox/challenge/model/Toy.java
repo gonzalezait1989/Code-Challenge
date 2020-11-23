@@ -23,20 +23,21 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 public class Toy {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-	@Column(name = "name__c")
-	private String name;
-	
-	@CreationTimestamp
-    @Column(name = "created__c", updatable = false)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date created;
+  @Column(name = "name__c")
+  private String name;
 
-    @UpdateTimestamp
-    @Column(name = "updated__c")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date updated;
+  @CreationTimestamp
+  @Column(name = "created__c", updatable = false)
+  @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+  private Date created;
+
+  @UpdateTimestamp
+  @Column(name = "updated__c")
+  @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+  private Date updated;
 }

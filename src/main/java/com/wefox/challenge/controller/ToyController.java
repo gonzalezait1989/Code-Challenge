@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ToyController {
-    @GetMapping("/toy/")
-    public String list(){
-        return "toys";
-    }
+  @GetMapping("/toys")
+  public String list() {
+    return "toys";
+  }
 }

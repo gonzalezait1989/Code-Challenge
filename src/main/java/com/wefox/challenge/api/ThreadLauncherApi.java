@@ -16,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/thread")
 @RequiredArgsConstructor
-public class ThreadLauncherAPI {
-	
-	@Autowired
-	private ThreadService threadService;
-		
-	@GetMapping
-    public ResponseEntity<List<ThreadInfoVO>> runThreads() {
-        return ResponseEntity.ok(threadService.runThreads());
-    }
-	
+public class ThreadLauncherApi {
+
+  @Autowired
+  private ThreadService threadService;
+
+  @GetMapping
+  public ResponseEntity<List<ThreadInfoVO>> runThreads() {
+    return ResponseEntity.ok(threadService.runThreads());
+  }
+
 }

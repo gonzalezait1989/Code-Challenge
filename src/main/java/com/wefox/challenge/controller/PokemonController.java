@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class PokemonController {
-	@GetMapping("/pokemons/")
-	public String list() {
-		return "pokemons";
-	}
+  @GetMapping("/pokemons")
+  public String list() {
+    return "pokemons";
+  }
 }

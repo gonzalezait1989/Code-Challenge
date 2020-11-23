@@ -2,8 +2,6 @@ package com.wefox.challenge.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,8 +11,8 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class ThreadInfo {
 
-	private Long threadNo;
-	private String stepName;
-	private Date start;
-	private Date finish;
+  private Long threadNo;
+  private String stepName;
+  private Date start;
+  private Date finish;
 }

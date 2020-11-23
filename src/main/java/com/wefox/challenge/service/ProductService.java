@@ -1,8 +1,8 @@
 package com.wefox.challenge.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,61 +16,52 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-	
-	@Autowired
-    private  ProductRespository productRespository;
 
-    public List<ProductVO> findAll() {
-        return productRespository.findAll().stream()
-                .map(p -> getProductVO(p))
-                .collect(Collectors.toList())
-                ;
-    }
+  @Autowired
+  private ProductRespository productRespository;
 
-    public Optional<ProductVO> findById(Long id) {
-        return productRespository
-                .findById(id)
-                .map(p -> getProductVO(p));
-    }
+  public List<ProductVO> findAll() {
+    List<ProductVO> products = new ArrayList<ProductVO>();
+    productRespository.findAll().iterator().forEachRemaining(p -> products.add(getProductVO(p)));
+    return products;
+  }
 
-    public ProductVO save(ProductVO product) {
-        return getProductVO(productRespository.save(this.getProduct(product)));
-    }
+  public Optional<ProductVO> findById(Long id) {
+    return productRespository.findById(id).map(p -> getProductVO(p));
+  }
 
-    public void deleteById(Long id) {
-        productRespository.deleteById(id);
-    }
+  public ProductVO save(ProductVO product) {
+    return getProductVO(productRespository.save(this.getProduct(product)));
+  }
 
-    /**
-     * Transform Product to ProductVO
-     * @param product
-     * @return
-     */
-    private ProductVO getProductVO(Product product) {
-        return product != null ?
-        		ProductVO.builder()
-                .created(product.getCreated())
-                .updated(product.getUpdated())
-                .id(product.getId())
-                .description(product.getDescription())
-                .name(product.getName())
-                .price(product.getPrice())
-                .stock(product.getStock())
-                .build() : ProductVO.builder().build();
-    }
+  public void deleteById(Long id) {
+    productRespository.deleteById(id);
+  }
 
-    /**
-     * Transform Product to ProductVO
-     * @param product
-     * @return
-     */
-    private Product getProduct(ProductVO product) {
-        return product != null ? Product.builder()
-                .id(product.getId())
-                .description(product.getDescription())
-                .name(product.getName())
-                .price(product.getPrice())
-                .stock(product.getStock())
-                .build() : Product.builder().build();
-    }
+  /**
+   * Transform Product to ProductVO
+   * 
+   * @param product
+   * @return
+   */
+  private ProductVO getProductVO(Product product) {
+    return product != null
+        ? ProductVO.builder().created(product.getCreated()).updated(product.getUpdated())
+            .id(product.getId()).description(product.getDescription()).name(product.getName())
+            .price(product.getPrice()).stock(product.getStock()).build()
+        : ProductVO.builder().build();
+  }
+
+  /**
+   * Transform Product to ProductVO
+   * 
+   * @param product
+   * @return
+   */
+  private Product getProduct(ProductVO product) {
+    return product != null
+        ? Product.builder().id(product.getId()).description(product.getDescription())
+            .name(product.getName()).price(product.getPrice()).stock(product.getStock()).build()
+        : Product.builder().build();
+  }
 }

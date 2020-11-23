@@ -15,27 +15,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ToyService {
 
-	@Autowired
-    private  ToyRepository toyRespository;
-	
-	public Optional<ToyVO> findById(Long id) {
-		return toyRespository.findById(id).map(t -> getToyVO(t));
-	}
-	
-	/**
-     * Transform Toy to ToyVO
-     * @param toy
-     * @return
-     */
-    private ToyVO getToyVO(Toy toy) {
-        return toy != null ? ToyVO.builder()
-                .created(toy.getCreated())
-                .updated(toy.getUpdated())
-                .id(toy.getId())
-                .name(toy.getName())
-                .build() : ToyVO.builder().build();
-    }
+  @Autowired
+  private ToyRepository toyRespository;
 
-	
-	
+  public Optional<ToyVO> findById(Long id) {
+    return toyRespository.findById(id).map(t -> getToyVO(t));
+  }
+
+  /**
+   * Transform Toy to ToyVO
+   * 
+   * @param toy
+   * @return
+   */
+  private ToyVO getToyVO(Toy toy) {
+    return toy != null
+        ? ToyVO.builder().created(toy.getCreated()).updated(toy.getUpdated()).id(toy.getId())
+            .name(toy.getName()).build()
+        : ToyVO.builder().build();
+  }
+
 }

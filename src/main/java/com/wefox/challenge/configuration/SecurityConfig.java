@@ -8,10 +8,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	protected void configure(final HttpSecurity http) throws Exception {  
-            http
-            .authorizeRequests()
-            .antMatchers("/api/v1/pokemons", "/api/v1/thread").authenticated()
-            .antMatchers("/**").permitAll();
-    }
+  @Override
+  protected void configure(final HttpSecurity http) throws Exception {
+    http.csrf().disable().authorizeRequests()
+        .antMatchers("/api/v1/pokemons/**", "/api/v1/thread/**").authenticated()
+        .antMatchers("/api/v1/**").permitAll()
+        .antMatchers("/**", "/accounts", "/products").permitAll()
+        .anyRequest().permitAll();
+  }
 }

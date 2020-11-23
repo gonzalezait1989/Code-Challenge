@@ -8,12 +8,14 @@ import lombok.Data;
 
 @Data
 @Builder
+@lombok.AllArgsConstructor
+@lombok.NoArgsConstructor
 public class AccountVO {
-	private Long id;
-	private String name;
-	private String email;
-	private Integer age;
-	private List<AddressVO> addresses;
-    private Date created;
-    private Date updated;
+  private Long id;
+  private String name;
+  private String email;
+  private Integer age;
+  private List<AddressVO> addresses;
+  private Date created;
+  private Date updated;
 }

@@ -7,9 +7,11 @@ import lombok.Data;
 
 @Data
 @Builder
+@lombok.AllArgsConstructor
+@lombok.NoArgsConstructor
 public class AddressVO {
-	private Long id;
-	private String address;
-    private Date created;
-    private Date updated;
+  private Long id;
+  private String address;
+  private Date created;
+  private Date updated;
 }

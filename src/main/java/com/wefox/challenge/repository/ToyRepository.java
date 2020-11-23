@@ -1,9 +1,11 @@
 package com.wefox.challenge.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import com.wefox.challenge.model.Toy;
 
-public interface ToyRepository  extends JpaRepository<Toy, Long> {
+@Repository
+public interface ToyRepository extends CrudRepository<Toy, Long> {
 
 }

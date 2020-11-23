@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ThreadLauncherController {
-    @GetMapping("/threadlauncher/")
-    public String list(){
-        return "threadlauncher";
-    }
+  @GetMapping("/threadlauncher")
+  public String list() {
+    return "threadlauncher";
+  }
 }

@@ -19,19 +19,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/toys")
 @Slf4j
 @RequiredArgsConstructor
-public class ToyAPI {
-	
-	@Autowired
-	private ToyService toyService;
+public class ToyApi {
 
-	@GetMapping("/{id}")
-    public ResponseEntity<ToyVO> findById(@PathVariable Long id) {
-        Optional<ToyVO> toy = toyService.findById(id);
-        if (!toy.isPresent()) {
-            log.error("Id " + id + " is not existed");
-            ResponseEntity.badRequest().build();
-        }
+  @Autowired
+  private ToyService toyService;
 
-        return ResponseEntity.ok(toy.get());
+  @GetMapping("/{id}")
+  public ResponseEntity<ToyVO> findById(@PathVariable Long id) {
+    Optional<ToyVO> toy = toyService.findById(id);
+    if (!toy.isPresent()) {
+      log.error("Id " + id + " is not existed");
+      ResponseEntity.badRequest().build();
     }
+
+    return ResponseEntity.ok(toy.get());
+  }
 }

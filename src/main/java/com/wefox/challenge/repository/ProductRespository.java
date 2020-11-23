@@ -1,9 +1,10 @@
 package com.wefox.challenge.repository;
 
-import com.wefox.challenge.model.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.wefox.challenge.model.Product;
+
 @Repository
-public interface ProductRespository extends JpaRepository<Product, Long> {
+public interface ProductRespository extends CrudRepository<Product, Long> {
 }

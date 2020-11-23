@@ -22,37 +22,39 @@ import org.springframework.integration.mapping.HeaderMapper;
 @ComponentScan
 @IntegrationComponentScan
 public class InfrastructureConfiguration {
-    
-    @Bean
-    public ExpressionParser parser() {
-        return new SpelExpressionParser();
-    }
-    
-    @Bean
-    public HeaderMapper<HttpHeaders> headerMapper() {
-        return new DefaultHttpHeaderMapper();
-    }
-    
-    @Bean
-    public MessagingGatewaySupport httpGetGate() {
-        HttpRequestHandlingMessagingGateway handler = new HttpRequestHandlingMessagingGateway();
-        handler.setRequestMapping(createMapping(new HttpMethod[]{HttpMethod.GET}, "/api/v1/toys/{id:[0-9]+}"));
-        handler.setPayloadExpression(parser().parseExpression("#pathVariables.id"));
-        handler.setHeaderMapper(headerMapper());
-        return handler;
-    }
-    
-    private RequestMapping createMapping(HttpMethod[] method, String... path) {
-        RequestMapping requestMapping = new RequestMapping();
-        requestMapping.setMethods(method);
-        requestMapping.setConsumes("application/json");
-        requestMapping.setProduces("application/json");
-        requestMapping.setPathPatterns(path); 
-        return requestMapping;
-    }
-    
-    @Bean
-    public IntegrationFlow httpGetFlow() {
-        return IntegrationFlows.from(httpGetGate()).channel("httpGetChannel").handle("toyEndpoint", "get").get();
-    }
+
+  @Bean
+  public ExpressionParser parser() {
+    return new SpelExpressionParser();
+  }
+
+  @Bean
+  public HeaderMapper<HttpHeaders> headerMapper() {
+    return new DefaultHttpHeaderMapper();
+  }
+
+  @Bean
+  public MessagingGatewaySupport httpGetGate() {
+    HttpRequestHandlingMessagingGateway handler = new HttpRequestHandlingMessagingGateway();
+    handler.setRequestMapping(
+        createMapping(new HttpMethod[] { HttpMethod.GET }, "/api/v1/toys/{id:[0-9]+}"));
+    handler.setPayloadExpression(parser().parseExpression("#pathVariables.id"));
+    handler.setHeaderMapper(headerMapper());
+    return handler;
+  }
+
+  private RequestMapping createMapping(HttpMethod[] method, String... path) {
+    RequestMapping requestMapping = new RequestMapping();
+    requestMapping.setMethods(method);
+    requestMapping.setConsumes("application/json");
+    requestMapping.setProduces("application/json");
+    requestMapping.setPathPatterns(path);
+    return requestMapping;
+  }
+
+  @Bean
+  public IntegrationFlow httpGetFlow() {
+    return IntegrationFlows.from(httpGetGate()).channel("httpGetChannel")
+        .handle("toyEndpoint", "get").get();
+  }
 }

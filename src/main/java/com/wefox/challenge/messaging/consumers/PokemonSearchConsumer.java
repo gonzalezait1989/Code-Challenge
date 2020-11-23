@@ -20,19 +20,18 @@ import com.wefox.challenge.vo.PokemonVO;
 @EnableBinding(PokemonSearchTopic.class)
 @EnableAutoConfiguration
 public class PokemonSearchConsumer {
-	
-	@Autowired
-	private PokemonService pokemonService;
-	
-	
-    @StreamListener(PokemonSearchTopic.INPUT)
-    @SendTo(PokemonSearchTopic.RESULT_OUTPUT)
-    public Message<List<PokemonVO>> receive(String payload) {
-    	Optional<List<PokemonVO>> pokemons = pokemonService.findByName(payload);
-    	if(pokemons.isPresent()) {
-    		Message<List<PokemonVO>> message = MessageBuilder.withPayload(pokemons.get()).build();
-    		return message;
-    	}
-    	return null;
+
+  @Autowired
+  private PokemonService pokemonService;
+
+  @StreamListener(PokemonSearchTopic.INPUT)
+  @SendTo(PokemonSearchTopic.RESULT_OUTPUT)
+  public Message<List<PokemonVO>> receive(String payload) {
+    Optional<List<PokemonVO>> pokemons = pokemonService.findByName(payload);
+    if (pokemons.isPresent()) {
+      Message<List<PokemonVO>> message = MessageBuilder.withPayload(pokemons.get()).build();
+      return message;
     }
+    return null;
+  }
 }

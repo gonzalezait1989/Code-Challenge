@@ -7,79 +7,70 @@
   <meta name="author" content="">
   <title>CRUD Sample with Spring Boot, MySQL and JS</title>
   <link href="https://unpkg.com/bootstrap@3.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/products.css" rel="stylesheet"/>
+  <link href="/accounts.css" rel="stylesheet"/>
 </head>
 <body>
   <div class="container">
-    <h1>Product CRUD</h1>
+    <h1>Account CRUD</h1>
     <main id="app">
       <router-view></router-view>
     </main>
   </div>
 
-  <template id="product">
+  <template id="account">
     <div>
-      <h2>{{ product.name }}</h2>
-      <b>Description: </b>
-      <div>{{ product.description }}</div>
-      <b>Stock: </b>
-      <div>{{ product.stock }}</div>
-      <b>Price:</b>
-      <div>{{ product.price }}<span class="glyphicon glyphicon-euro"></span></div>
+      <h2>{{ account.name }}</h2>
+      <b>Email: </b>
+      <div>{{ account.email }}</div>
+      <b>Age: </b>
+      <div>{{ account.age }}</div>
       <br/>
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
       <a>
-        <router-link to="/">Back to product list</router-link>
+        <router-link to="/">Back to account list</router-link>
       </a>
     </div>
   </template>
 
-  <template id="product-list">
+  <template id="account-list">
     <div>
       <div class="actions">
         <a class="btn btn-default">
-          <router-link :to="{path: '/add-product'}">
+          <router-link :to="{path: '/add-account'}">
             <span class="glyphicon glyphicon-plus"></span>
-            Add product
+            Add account
           </router-link>
         </a>
       </div>
       <div class="filters row">
         <div class="form-group col-sm-3">
-          <input placeholder="Search" v-model="searchKey" class="form-control" id="search-element" requred/>
+          <input placeholder="Search" v-model="searchKey" class="form-control" id="search-element" required/>
         </div>
       </div>
       <table class="table">
         <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th>
-          <th>Stock</th>
-          <th>Price</th>
+          <th>Email</th>
+          <th>Age</th>
           <th class="col-sm-2">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="product in filteredProducts">
-          <!-- tr v-for="product in products" -->
-          <!-- tr v-for="product in products | filterBy searchKey in 'name'" -->
+        <tr v-for="account in filteredAccounts">
           <td>
             <a>
-              <router-link :to="{name: 'product', params: {product_id: product.id}}">{{ product.name }}</router-link>
+              <router-link :to="{name: 'account', params: {account_id: account.id}}">{{ account.name }}</router-link>
             </a>
           </td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.stock }}</td>
-          <td>
-            {{ product.price }}
-            <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-          </td>
+          <td>{{ account.email }}</td>
+          <td>{{ account.age }}</td>
           <td>
             <a class="btn btn-warning btn-xs">
-              <router-link :to="{name: 'product-edit', params: {product_id: product.id}}">Edit</router-link>
+              <router-link :to="{name: 'account-edit', params: {account_id: account.id}}">Edit</router-link>
             </a>
             <a class="btn btn-danger btn-xs">
-              <router-link :to="{name: 'product-delete', params: {product_id: product.id}}">Delete</router-link>
+              <router-link :to="{name: 'account-delete', params: {account_id: account.id}}">Delete</router-link>
             </a>
           </td>
         </tr>
@@ -89,25 +80,29 @@
   </template>
 
 
-  <template id="add-product">
+  <template id="add-account">
     <div>
-      <h2>Add new product</h2>
-      <form @submit="createProduct">
+      <h2>Add new account</h2>
+      <form @submit="createAccount">
         <div class="form-group">
           <label for="add-name">Name</label>
-          <input class="form-control" id="add-name" v-model="product.name" required/>
+          <input class="form-control" id="add-name" v-model="account.name" required/>
         </div>
         <div class="form-group">
-          <label for="add-description">Description</label>
-          <textarea class="form-control" id="add-description" rows="10" v-model="product.description"></textarea>
+          <label for="add-description">Email</label>
+          <input class="form-control" id="add-email" type="email" v-model="account.email" required/>
         </div>
         <div class="form-group">
-          <label for="add-stock">Stock</label>
-          <input class="form-control" id="add-stock" v-model="product.stock" required type="number" data-bv-integer-message="The value is not an integer" />
+          <label for="add-stock">Age</label>
+          <input class="form-control" id="add-age" v-model="account.age" required type="number" data-bv-integer-message="The value is not an integer" />
         </div>
-        <div class="form-group">
-          <label for="add-price">Price, <span class="glyphicon glyphicon-euro"></span></label>
-          <input type="number" class="form-control" id="add-price" v-model="product.price"/>
+        <label for="edit-name">Addresses</label>
+        <div class="form-group" v-for="(address,k) in account.addresses" :key="k">
+            <input type="text" class="form-control" v-model="address.address">
+            <span>
+              <i class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</i>
+              <i class="fas fa-plus-circle" @click="add(k)">Add fields</i>
+            </span>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
         <a class="btn btn-default">
@@ -117,26 +112,31 @@
     </div>
   </template>
 
-  <template id="product-edit">
+  <template id="account-edit">
     <div>
-      <h2>Edit product</h2>
-      <form @submit="updateProduct">
+      <h2>Edit account</h2>
+      <form @submit="updateAccount">
         <div class="form-group">
           <label for="edit-name">Name</label>
-          <input class="form-control" id="edit-name" v-model="product.name" required/>
+          <input class="form-control" id="edit-name" v-model="account.name" required/>
         </div>
         <div class="form-group">
-          <label for="edit-description">Description</label>
-          <textarea class="form-control" id="edit-description" rows="3" v-model="product.description"></textarea>
+          <label for="edit-email">Email</label>
+          <input class="form-control" id="edit-email"  type="email" v-model="account.email" required/>
         </div>
         <div class="form-group">
-          <label for="edit-stock">Stock</label>
-          <input class="form-control" id="edit-stock" v-model="product.stock" required type="number" data-bv-integer-message="The value is not an integer" />
+          <label for="edit-stock">Age</label>
+          <input class="form-control" id="edit-age" v-model="account.age" required type="number" data-bv-integer-message="The value is not an integer" />
         </div>
-        <div class="form-group">
-          <label for="edit-price">Price, <span class="glyphicon glyphicon-euro"></span></label>
-          <input type="number" class="form-control" id="edit-price" v-model="product.price"/>
-        </div>
+        <label for="edit-name">Addresses</label>
+        <div class="form-group" v-for="(address,k) in account.addresses" :key="k">
+		    <input type="text" class="form-control" v-model="address.address">
+		    <span>
+		      <i class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</i>
+              <i class="fas fa-plus-circle" @click="add(k)">Add fields</i>
+		      
+		    </span>
+		</div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-default">
           <router-link to="/">Cancel</router-link>
@@ -145,10 +145,10 @@
     </div>
   </template>
 
-  <template id="product-delete">
+  <template id="account-delete">
     <div>
-      <h2>Delete product {{ product.name }}</h2>
-      <form @submit="deleteProduct">
+      <h2>Delete account {{ account.name }}</h2>
+      <form @submit="deleteAccount">
         <p>The action cannot be undone.</p>
         <button type="submit" class="btn btn-danger">Delete</button>
         <a class="btn btn-default">
@@ -161,7 +161,7 @@
   <script src="https://unpkg.com/vue@2.5.22/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router@3.0.2/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
-  <script src="/products.js"></script>
+  <script src="/accounts.js"></script>
 
 </body>
 </html>

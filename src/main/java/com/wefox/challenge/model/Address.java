@@ -2,7 +2,6 @@ package com.wefox.challenge.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,16 +28,16 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 public class Address {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   @Column(name = "address__c")
   private String address;
-  
+
   @JsonIgnore
-  @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "account_id")
   private Account account;
 

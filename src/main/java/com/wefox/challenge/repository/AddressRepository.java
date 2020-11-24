@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.wefox.challenge.model.Address;
 
+/**
+ * Repository to perform CRUD operations over Address entities.
+ * 
+ * @author aitor
+ */
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Long> {
 

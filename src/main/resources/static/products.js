@@ -27,24 +27,21 @@ var productService = {
       .catch(error => console.log(error))
   },
 
-  create(product, fn) {
+  create(product) {
     axios
       .post('/api/v1/products', product)
-      .then(response => fn(response))
       .catch(error => console.log(error))
   },
 
-  update(id, product, fn) {
+  update(id, product) {
     axios
       .put('/api/v1/products/' + id, product)
-      .then(response => fn(response))
       .catch(error => console.log(error))
   },
 
-  deleteProduct(id, fn) {
+  deleteProduct(id) {
     axios
       .delete('/api/v1/products/' + id)
-      .then(response => fn(response))
       .catch(error => console.log(error))
   }
 }
@@ -82,7 +79,8 @@ var ProductEdit = Vue.extend({
   },
   methods: {
     updateProduct: function () {
-      productService.update(this.product.id, this.product, r => router.push('/'))
+      productService.update(this.product.id, this.product);
+      router.push('/');
     }
   }
 });
@@ -94,7 +92,8 @@ var ProductDelete = Vue.extend({
   },
   methods: {
     deleteProduct: function () {
-      productService.deleteProduct(this.product.id, r => router.push('/'))
+      productService.deleteProduct(this.product.id);
+      router.push('/');
     }
   }
 });
@@ -108,14 +107,15 @@ var AddProduct = Vue.extend({
   },
   methods: {
     createProduct() {
-      productService.create(this.product, r => router.push('/'))
+      productService.create(this.product);
+      router.push('/');
     }
   }
 });
 
 var router = new VueRouter({
 	routes: [
-		{path: '/', component: List},
+		{path: '/', component: List, name: 'product-list'},
 		{path: '/product/:product_id', component: Product, name: 'product'},
 		{path: '/add-product', component: AddProduct},
 		{path: '/product/:product_id/edit', component: ProductEdit, name: 'product-edit'},

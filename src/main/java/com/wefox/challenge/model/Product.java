@@ -24,7 +24,7 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 public class Product {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;

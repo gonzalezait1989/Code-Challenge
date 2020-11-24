@@ -1,4 +1,4 @@
-package com.wefox.challenge.service;
+package com.wefox.challenge.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,13 +28,13 @@ import com.wefox.challenge.vo.AddressVO;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountServiceTest {
+public class AccountServiceTestImpl {
 
   @InjectMocks
-  private AccountService accountService;
+  private AccountServiceImpl accountService;
 
   @Mock
-  private AddressService addressService;
+  private AddressServiceImpl addressService;
 
   @Mock
   private AccountRepository accountRespository;

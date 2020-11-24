@@ -1,4 +1,4 @@
-package com.wefox.challenge.service;
+package com.wefox.challenge.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -31,10 +31,10 @@ import me.sargunvohra.lib.pokekotlin.model.VersionGameIndex;
 
 @RunWith(MockitoJUnitRunner.class)
 
-public class PokemonServiceTest {
+public class PokemonServiceTestImpl {
 
   @InjectMocks
-  private PokemonService pokemonService;
+  private PokemonServiceImpl pokemonService;
 
   @Mock
   private PokemonMessageProducer pokemonMessageProducer;

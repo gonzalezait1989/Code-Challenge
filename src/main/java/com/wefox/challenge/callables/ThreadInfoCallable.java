@@ -6,6 +6,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.wefox.challenge.model.ThreadInfo;
 
+/**
+ * A Callable that contains relevant information about the Thread.
+ * 
+ * @author aitor
+ */
 public class ThreadInfoCallable implements Callable<ThreadInfo> {
 
   private String stepName;

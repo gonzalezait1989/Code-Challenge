@@ -1,67 +1,44 @@
 package com.wefox.challenge.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.wefox.challenge.model.Product;
-import com.wefox.challenge.repository.ProductRespository;
 import com.wefox.challenge.vo.ProductVO;
 
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
-public class ProductService {
-
-  @Autowired
-  private ProductRespository productRespository;
-
-  public List<ProductVO> findAll() {
-    List<ProductVO> products = new ArrayList<ProductVO>();
-    productRespository.findAll().iterator().forEachRemaining(p -> products.add(getProductVO(p)));
-    return products;
-  }
-
-  public Optional<ProductVO> findById(Long id) {
-    return productRespository.findById(id).map(p -> getProductVO(p));
-  }
-
-  public ProductVO save(ProductVO product) {
-    return getProductVO(productRespository.save(this.getProduct(product)));
-  }
-
-  public void deleteById(Long id) {
-    productRespository.deleteById(id);
-  }
+/**
+ * Service to manage products.
+ * 
+ * @author aitor
+ */
+public interface ProductService {
 
   /**
-   * Transform Product to ProductVO
+   * Gets all the Products.
    * 
-   * @param product
-   * @return
+   * @return a list of Products.
    */
-  private ProductVO getProductVO(Product product) {
-    return product != null
-        ? ProductVO.builder().created(product.getCreated()).updated(product.getUpdated())
-            .id(product.getId()).description(product.getDescription()).name(product.getName())
-            .price(product.getPrice()).stock(product.getStock()).build()
-        : ProductVO.builder().build();
-  }
+  public List<ProductVO> findAll();
 
   /**
-   * Transform Product to ProductVO
+   * Finds an ProductVO by ID.
    * 
-   * @param product
-   * @return
+   * @param id the Id of the ProductVO.
+   * @return an Optional of the ProductVO.
    */
-  private Product getProduct(ProductVO product) {
-    return product != null
-        ? Product.builder().id(product.getId()).description(product.getDescription())
-            .name(product.getName()).price(product.getPrice()).stock(product.getStock()).build()
-        : Product.builder().build();
-  }
+  public Optional<ProductVO> findById(Long id);
+
+  /**
+   * Finds an ProductVO by ID.
+   * 
+   * @param id the Id of the ProductVO.
+   * @return an Optional of the ProductVO.
+   */
+  public ProductVO save(ProductVO product);
+
+  /**
+   * Deletes an Product by it's Id.
+   * 
+   * @param id the id of the Product.
+   */
+  public void deleteById(Long id);
 }

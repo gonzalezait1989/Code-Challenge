@@ -1,94 +1,61 @@
 package com.wefox.challenge.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.wefox.challenge.model.Account;
-import com.wefox.challenge.repository.AccountRepository;
 import com.wefox.challenge.vo.AccountVO;
 
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
-public class AccountService {
-
-  @Autowired
-  private AccountRepository accountRespository;
-  @Autowired
-  private AddressService addressService;
-
-  public List<AccountVO> findAll() {
-    List<AccountVO> accounts = new ArrayList<AccountVO>();
-    accountRespository.findAll().iterator().forEachRemaining(a -> accounts.add(getAccountVO(a)));
-    return accounts;
-  }
-
-  public AccountVO save(@Valid AccountVO accountVO) {
-    Account account = this.getAccount(accountVO);
-    if (account.getAddresses() != null && !account.getAddresses().isEmpty()) {
-      account.getAddresses().parallelStream().forEach(address -> address.setAccount(account));
-    }
-    return this.getAccountVO(this.accountRespository.save(account));
-  }
-
-  public Optional<AccountVO> findById(Long id) {
-    return this.accountRespository.findById(id).map(a -> getAccountVO(a));
-  }
-
-  public Optional<AccountVO> findByEmail(@Email String email) {
-    return this.accountRespository.findByEmail(email).map(a -> getAccountVO(a));
-  }
-
-  public boolean existsById(Long id) {
-    return this.accountRespository.existsById(id);
-  }
-
-  public void deleteById(Long id) {
-    this.accountRespository.deleteById(id);
-  }
+/**
+ * Service to manage Accounts.
+ * 
+ * @author aitor
+ */
+public interface AccountService {
 
   /**
-   * Transform Account to AccountVO
+   * Gets all the Accounts.
    * 
-   * @param account
-   * @return
+   * @return a list of Accounts.
    */
-  private AccountVO getAccountVO(Account account) {
-    return account != null
-        ? AccountVO.builder().created(account.getCreated()).updated(account.getUpdated())
-            .id(account.getId()).age(account.getAge()).email(account.getEmail())
-            .name(account.getName())
-            .addresses(account.getAddresses() != null ? account.getAddresses().parallelStream()
-                .map(address -> addressService.getAddressVO(address)).collect(Collectors.toList())
-                : Collections.emptyList())
-            .build()
-        : AccountVO.builder().build();
-  }
+  public List<AccountVO> findAll();
 
   /**
-   * Transform Account to AccountVO
+   * Saves one Account with it's Addresses (if any)
    * 
-   * @param accountVO
-   * @return
+   * @param accountVO the account to persist.
+   * @return the persisted account.
    */
-  private Account getAccount(AccountVO accountVO) {
-    return accountVO != null
-        ? Account.builder().created(accountVO.getCreated()).updated(accountVO.getUpdated())
-            .age(accountVO.getAge()).email(accountVO.getEmail()).name(accountVO.getName())
-            .addresses(accountVO.getAddresses() != null ? accountVO.getAddresses().parallelStream()
-                .map(addressVO -> addressService.getAddress(addressVO)).collect(Collectors.toList())
-                : Collections.emptyList())
-            .build()
-        : Account.builder().build();
-  }
+  public AccountVO save(AccountVO accountVO);
+
+  /**
+   * Finds an AccountVO by ID.
+   * 
+   * @param id the Id of the Account VO.
+   * @return an Optional of the AccountVO.
+   */
+  public Optional<AccountVO> findById(Long id);
+
+  /**
+   * Finds an AccountVO by Email.
+   * 
+   * @param email the Email of the Account VO.
+   * @return an Optional of the AccountVO.
+   */
+  public Optional<AccountVO> findByEmail(String email);
+
+  /**
+   * Checks if an Account exists by it's Id.
+   * 
+   * @param id the Id of the Account.
+   * @return true if exists, false otherwise.
+   */
+  public boolean existsById(Long id);
+
+  /**
+   * Deletes an Account by it's Id.
+   * 
+   * @param id the id of the Account.
+   */
+  public void deleteById(Long id);
+
 }

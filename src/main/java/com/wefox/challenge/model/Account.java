@@ -41,7 +41,7 @@ public class Account {
   @Column(name = "age__c")
   private Integer age;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Address> addresses;
 
   @CreationTimestamp

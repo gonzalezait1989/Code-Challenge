@@ -130,19 +130,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>3.6.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-inline</artifactId>
-			<version>3.6.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-test-support</artifactId>
 			<version>2.2.1.RELEASE</version>
@@ -163,11 +150,6 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.2.32</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springdoc</groupId> -->
-<!-- 			<artifactId>springdoc-openapi-data-rest</artifactId> -->
-<!-- 			<version>1.2.32</version> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 	<build>
@@ -175,7 +157,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -221,38 +202,6 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.springframework.boot</groupId> -->
-<!-- 				<artifactId>spring-boot-maven-plugin</artifactId> -->
-<!-- 				<version>2.1.8.RELEASE</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>pre-integration-test</id> -->
-<!-- 						<goals> -->
-<!-- 							<goal>start</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 					<execution> -->
-<!-- 						<id>post-integration-test</id> -->
-<!-- 						<goals> -->
-<!-- 							<goal>stop</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.springdoc</groupId> -->
-<!-- 				<artifactId>springdoc-openapi-maven-plugin</artifactId> -->
-<!-- 				<version>0.2</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>integration-test</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>generate</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
 		</plugins>
 	</build>
 </project>

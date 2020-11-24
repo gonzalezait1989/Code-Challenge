@@ -1,4 +1,4 @@
-package com.wefox.challenge.service;
+package com.wefox.challenge.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -16,10 +16,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.wefox.challenge.vo.ThreadInfoVO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ThreadServiceTest {
+public class ThreadServiceTestImpl {
 
   @InjectMocks
-  private ThreadService threadService;
+  private ThreadServiceImpl threadService;
 
   @Mock
   private ExecutorService executor;

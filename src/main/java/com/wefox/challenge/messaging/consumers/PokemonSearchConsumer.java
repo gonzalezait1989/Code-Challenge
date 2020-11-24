@@ -16,14 +16,30 @@ import com.wefox.challenge.messaging.topic.PokemonSearchTopic;
 import com.wefox.challenge.service.PokemonService;
 import com.wefox.challenge.vo.PokemonVO;
 
+/**
+ * Consumer that consumes the messages from the search request topic, searches
+ * for the pokemon with that name and publishes the result on another queue.
+ * 
+ * @author aitor
+ */
 @Component
 @EnableBinding(PokemonSearchTopic.class)
 @EnableAutoConfiguration
 public class PokemonSearchConsumer {
 
+  /**
+   * The Pokemon service used to search for Pokemons by name.
+   */
   @Autowired
   private PokemonService pokemonService;
 
+  /**
+   * The consumer mapping. Consumes the content of the messages and publishes
+   * messages on another topic with the results.
+   * 
+   * @param payload the search request message content.
+   * @return the Message with the results of the search.
+   */
   @StreamListener(PokemonSearchTopic.INPUT)
   @SendTo(PokemonSearchTopic.RESULT_OUTPUT)
   public Message<List<PokemonVO>> receive(String payload) {

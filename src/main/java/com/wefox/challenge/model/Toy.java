@@ -23,7 +23,7 @@ import lombok.Data;
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
 public class Toy {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;

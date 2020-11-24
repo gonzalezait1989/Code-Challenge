@@ -17,6 +17,11 @@ import org.springframework.integration.http.inbound.RequestMapping;
 import org.springframework.integration.http.support.DefaultHttpHeaderMapper;
 import org.springframework.integration.mapping.HeaderMapper;
 
+/**
+ * Defines a DSL Integration.
+ * 
+ * @author aitor
+ */
 @Configuration
 @EnableIntegration
 @ComponentScan
@@ -33,6 +38,11 @@ public class InfrastructureConfiguration {
     return new DefaultHttpHeaderMapper();
   }
 
+  /**
+   * Defines a Gateway for http requests.
+   * 
+   * @return the Gateway.
+   */
   @Bean
   public MessagingGatewaySupport httpGetGate() {
     HttpRequestHandlingMessagingGateway handler = new HttpRequestHandlingMessagingGateway();
@@ -43,6 +53,24 @@ public class InfrastructureConfiguration {
     return handler;
   }
 
+  /**
+   * Defines a Integration Flow.
+   * 
+   * @return the Integration Flow.
+   */
+  @Bean
+  public IntegrationFlow httpGetFlow() {
+    return IntegrationFlows.from(httpGetGate()).channel("httpGetChannel")
+        .handle("toyEndpoint", "get").get();
+  }
+
+  /**
+   * Creates a mapping between different paths to the ending request.
+   * 
+   * @param method the method used by the request.
+   * @param path   the path of the request.
+   * @return the RequestMapping.
+   */
   private RequestMapping createMapping(HttpMethod[] method, String... path) {
     RequestMapping requestMapping = new RequestMapping();
     requestMapping.setMethods(method);
@@ -50,11 +78,5 @@ public class InfrastructureConfiguration {
     requestMapping.setProduces("application/json");
     requestMapping.setPathPatterns(path);
     return requestMapping;
-  }
-
-  @Bean
-  public IntegrationFlow httpGetFlow() {
-    return IntegrationFlows.from(httpGetGate()).channel("httpGetChannel")
-        .handle("toyEndpoint", "get").get();
   }
 }

@@ -53,8 +53,7 @@ public class ProductApi {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<ProductVO> update(
-      @PathVariable Long id,
+  public ResponseEntity<ProductVO> update(@PathVariable Long id,
       @Valid @RequestBody ProductVO product) {
     if (!productService.findById(id).isPresent()) {
       log.error("Id " + id + " is not existed");

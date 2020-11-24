@@ -1,4 +1,4 @@
-package com.wefox.challenge.service;
+package com.wefox.challenge.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,10 +15,10 @@ import com.wefox.challenge.vo.AddressVO;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddressServiceTest {
+public class AddressServiceTestImpl {
 
   @InjectMocks
-  private AddressService addressService;
+  private AddressServiceImpl addressService;
 
   @Test
   public void testGetAddressVO() throws Exception {

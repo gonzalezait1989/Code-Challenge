@@ -1,39 +1,29 @@
 package com.wefox.challenge.service;
 
-import org.springframework.stereotype.Service;
-
 import com.wefox.challenge.model.Address;
 import com.wefox.challenge.vo.AddressVO;
 
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
-public class AddressService {
-
-  /**
-   * Transform Address to AddressVO
-   * 
-   * @param address
-   * @return
-   */
-  AddressVO getAddressVO(Address address) {
-    return address != null
-        ? AddressVO.builder().created(address.getCreated()).updated(address.getUpdated())
-            .id(address.getId()).address(address.getAddress()).build()
-        : AddressVO.builder().build();
-  }
+/**
+ * Service to manage Addresses.
+ * 
+ * @author aitor
+ */
+public interface AddressService {
 
   /**
    * Transform Address to AddressVO
    * 
-   * @param addressVO
-   * @return
+   * @param address the Address to transform.
+   * @return the AddressVO.
    */
-  Address getAddress(AddressVO addressVO) {
-    return addressVO != null
-        ? Address.builder().created(addressVO.getCreated()).updated(addressVO.getUpdated())
-            .id(addressVO.getId()).address(addressVO.getAddress()).build()
-        : Address.builder().build();
-  }
+  public AddressVO getAddressVO(Address address);
+
+  /**
+   * Transform AddressVO to Address
+   * 
+   * @param address the AddressVO to transform.
+   * @return the Address.
+   */
+  public Address getAddress(AddressVO addressVO);
+
 }

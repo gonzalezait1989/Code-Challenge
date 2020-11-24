@@ -32,7 +32,7 @@ public class PokemonMessageProducer {
    * @return the published message.
    */
   public Message<String> produceFindByName(String name) {
-    if (name == null || name.isBlank())
+    if (name == null || name.replace(" ","").isEmpty())
       return null;
 
     Message<String> message = MessageBuilder.withPayload(name).build();

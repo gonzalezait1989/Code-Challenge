@@ -33,7 +33,7 @@ public class PokemonServiceImpl implements PokemonService {
    */
   @Override
   public Optional<List<PokemonVO>> findByName(String name) {
-    if (name == null || name.isBlank()) {
+    if (name == null || name.replace(" ","").isEmpty()) {
       return Optional.empty();
     }
     int elements = 100;

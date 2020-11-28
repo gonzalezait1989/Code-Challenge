@@ -22,7 +22,7 @@ public interface PokemonSearchTopic {
 	 * @return a Subscribable channel.
 	 */
 	@Input(INPUT)
-	SubscribableChannel input();
+	SubscribableChannel inputChannel();
 
 	/**
 	 * Defines a topic where the search messages will be publiched.
@@ -30,7 +30,7 @@ public interface PokemonSearchTopic {
 	 * @return a Subscribable channel.
 	 */
 	@Output(OUTPUT)
-	MessageChannel output();
+	MessageChannel outputChannel();
 
 	/**
 	 * Defines a topic where the result messages after obtaining the Pokemons will

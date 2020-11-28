@@ -27,14 +27,12 @@ public class PokemonApi {
 
 	@GetMapping("/{parameter}")
 	public ResponseEntity<List<PokemonVO>> findByName(@PathVariable String name) {
-		return pokemonService.findByName(name).map(pokemon -> ResponseEntity.ok(pokemon))
-				.orElseThrow(ResourceNotFoundException::new);
+		return pokemonService.findByName(name).map(ResponseEntity::ok).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	@GetMapping("/queue/{parameter}")
 	public ResponseEntity<Message<String>> findByNameAsyncRequest(@PathVariable String name) {
-		return pokemonService.findByNameAsync(name).map(message -> ResponseEntity.ok(message))
-				.orElseThrow(InternalErrorException::new);
+		return pokemonService.findByNameAsync(name).map(ResponseEntity::ok).orElseThrow(InternalErrorException::new);
 	}
 
 }

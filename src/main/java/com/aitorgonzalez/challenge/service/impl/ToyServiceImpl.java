@@ -20,6 +20,6 @@ public class ToyServiceImpl implements ToyService {
 
 	@Override
 	public Optional<ToyVO> findById(Long id) {
-		return toyRespository.findById(id).map(t -> getToyVO(t));
+		return toyRespository.findById(id).map(this::getToyVO);
 	}
 }

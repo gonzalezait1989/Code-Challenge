@@ -16,10 +16,10 @@ public interface AddressService {
 	 * @param address the AddressVO to transform.
 	 * @return the Address.
 	 */
-	static Address getAddress(AddressVO addressVO) {
+	default Address getAddress(AddressVO addressVO) {
 		return addressVO != null
 				? Address.builder().created(addressVO.getCreated()).updated(addressVO.getUpdated())
-						.id(addressVO.getId()).address(addressVO.getAddress()).build()
+						.id(addressVO.getId()).addressDetails(addressVO.getAddress()).build()
 				: Address.builder().build();
 	}
 
@@ -29,10 +29,10 @@ public interface AddressService {
 	 * @param address the Address to transform.
 	 * @return the AddressVO.
 	 */
-	static AddressVO getAddressVO(Address address) {
+	default AddressVO getAddressVO(Address address) {
 		return address != null
 				? AddressVO.builder().created(address.getCreated()).updated(address.getUpdated()).id(address.getId())
-						.address(address.getAddress()).build()
+						.address(address.getAddressDetails()).build()
 				: AddressVO.builder().build();
 	}
 

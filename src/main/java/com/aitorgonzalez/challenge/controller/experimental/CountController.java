@@ -5,9 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -56,23 +53,5 @@ public class CountController {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		countOperations++;
 		return countOperations;
-	}
-
-	@PatchMapping("/count")
-	public String patch() {
-		countOperations++;
-		return String.valueOf(countOperations);
-	}
-
-	@PostMapping("/count")
-	public String post() {
-		countOperations++;
-		return String.valueOf(countOperations);
-	}
-
-	@PutMapping("/count")
-	public String put() {
-		countOperations++;
-		return String.valueOf(countOperations);
 	}
 }

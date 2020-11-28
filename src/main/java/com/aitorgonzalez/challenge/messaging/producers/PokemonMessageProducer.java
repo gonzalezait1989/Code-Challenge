@@ -36,7 +36,7 @@ public class PokemonMessageProducer {
 			return null;
 
 		Message<String> message = MessageBuilder.withPayload(name).build();
-		if (this.pokemonSearchTopic.output().send(message)) {
+		if (this.pokemonSearchTopic.outputChannel().send(message)) {
 			return message;
 		}
 		return null;

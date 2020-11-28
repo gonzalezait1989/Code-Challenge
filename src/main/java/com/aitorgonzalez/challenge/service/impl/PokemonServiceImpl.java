@@ -38,7 +38,7 @@ public class PokemonServiceImpl implements PokemonService {
 		}
 		int elements = 100;
 		int offset = 0;
-		List<Pokemon> pokemons = new ArrayList<Pokemon>();
+		List<Pokemon> pokemons = new ArrayList<>();
 		// There are 1050 pokemons, but I do it in batches of 100 to make sure that if
 		// some more are added, we don't miss them.
 		while (elements == 100) {
@@ -59,8 +59,7 @@ public class PokemonServiceImpl implements PokemonService {
 
 		if (pokemons.isEmpty())
 			return Optional.empty();
-		return Optional
-				.of(pokemons.parallelStream().map(pokemon -> getPokemonVO(pokemon)).collect(Collectors.toList()));
+		return Optional.of(pokemons.parallelStream().map(this::getPokemonVO).collect(Collectors.toList()));
 
 	}
 

@@ -22,6 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers("/api/v1/pokemons/**", "/api/v1/thread/**").authenticated().antMatchers("/api/v1/**")
-				.permitAll().antMatchers("/**", "/accounts", "/products").permitAll().anyRequest().permitAll();
+				.permitAll().antMatchers("/accounts", "/products", "/**").permitAll().anyRequest().permitAll();
 	}
 }

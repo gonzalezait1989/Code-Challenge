@@ -35,7 +35,7 @@ public class Address {
 	private Account account;
 
 	@Column(name = "address__c")
-	private String address;
+	private String addressDetails;
 
 	@CreationTimestamp
 	@Column(name = "created__c", updatable = false)

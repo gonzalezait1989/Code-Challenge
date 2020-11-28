@@ -27,19 +27,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductVO> findAll() {
-		List<ProductVO> products = new ArrayList<ProductVO>();
+		List<ProductVO> products = new ArrayList<>();
 		productRespository.findAll().iterator().forEachRemaining(p -> products.add(getProductVO(p)));
 		return products;
 	}
 
 	@Override
 	public Optional<ProductVO> findById(Long id) {
-		return productRespository.findById(id).map(p -> getProductVO(p));
+		return productRespository.findById(id).map(this::getProductVO);
 	}
 
 	@Override
 	public Optional<ProductVO> findByName(String name) {
-		return productRespository.findByName(name).map(p -> getProductVO(p));
+		return productRespository.findByName(name).map(this::getProductVO);
 	}
 
 	@Override

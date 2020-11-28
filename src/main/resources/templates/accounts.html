@@ -20,9 +20,9 @@
   <template id="account">
     <div>
       <h2>{{ account.name }}</h2>
-      <b>Email: </b>
+      <strong>Email: </strong>
       <div>{{ account.email }}</div>
-      <b>Age: </b>
+      <strong>Age: </strong>
       <div>{{ account.age }}</div>
       <br/>
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -48,12 +48,13 @@
         </div>
       </div>
       <table class="table">
-        <thead>
+      <caption>Accounts table</caption>
+        <th scope="col" ead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Age</th>
-          <th class="col-sm-2">Actions</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Age</th>
+          <th scope="col" class="col-sm-2">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -100,8 +101,8 @@
         <div class="form-group" v-for="(address,k) in account.addresses" :key="k">
             <input type="text" class="form-control" v-model="address.address">
             <span>
-              <i class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</i>
-              <i class="fas fa-plus-circle" @click="add(k)">Add fields</i>
+              <em class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</em>
+              <em class="fas fa-plus-circle" @click="add(k)">Add fields</em>
             </span>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
@@ -132,8 +133,8 @@
         <div class="form-group" v-for="(address,k) in account.addresses" :key="k">
 		    <input type="text" class="form-control" v-model="address.address">
 		    <span>
-		      <i class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</i>
-              <i class="fas fa-plus-circle" @click="add(k)">Add fields</i>
+		      <em class="fas fa-minus-circle" @click="remove(k)" v-show="k || ( !k && account.addresses.length > 0)">Remove</em>
+              <em class="fas fa-plus-circle" @click="add(k)">Add fields</em>
 		      
 		    </span>
 		</div>

@@ -49,7 +49,7 @@ public class ProductApi {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
+	public ResponseEntity<Object> delete(@PathVariable Long id) {
 		return productService.findById(id).map(productFromDB -> {
 			productService.deleteById(id);
 			return ResponseEntity.noContent().build();
@@ -57,31 +57,27 @@ public class ProductApi {
 	}
 
 	@GetMapping
-	public ResponseEntity<HashMap> findAll() {
+	public ResponseEntity<HashMap<String, Object>> findAll() {
 		List<ProductVO> products = productService.findAll();
-		return ResponseEntity.ok(new HashMap<String, Object>() {
-			{
-				put("products", products);
-			}
-		});
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("products", products);
+		return ResponseEntity.ok(map);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductVO> findById(@PathVariable Long id) {
 		Optional<ProductVO> product = productService.findById(id);
 		if (!product.isPresent()) {
-			log.error("Id " + id + " is not existed");
-			ResponseEntity.badRequest().build();
+			log.error("Id " + id + " does not exist");
+			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(product.get());
+		return product.map(ResponseEntity::ok).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<ProductVO> update(@PathVariable Long id, @Valid @RequestBody ProductVO product) {
-		return productService.findById(id).map(productFromDB -> {
-			ProductVO updatedProduct = productService.save(productFromDB);
-			return ResponseEntity.ok(updatedProduct);
-		}).orElseThrow(ResourceNotFoundException::new);
+		return productService.findById(id).map(productFromDB -> ResponseEntity.ok(productService.save(productFromDB)))
+				.orElseThrow(ResourceNotFoundException::new);
 	}
 }

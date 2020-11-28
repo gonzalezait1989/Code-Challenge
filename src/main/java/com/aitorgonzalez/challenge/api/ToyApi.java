@@ -12,11 +12,9 @@ import com.aitorgonzalez.challenge.service.ToyService;
 import com.aitorgonzalez.challenge.vo.ToyVO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/toys")
-@Slf4j
 @RequiredArgsConstructor
 public class ToyApi {
 
@@ -25,6 +23,6 @@ public class ToyApi {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ToyVO> findById(@PathVariable Long id) {
-		return toyService.findById(id).map(toy -> ResponseEntity.ok(toy)).orElseThrow(ResourceNotFoundException::new);
+		return toyService.findById(id).map(ResponseEntity::ok).orElseThrow(ResourceNotFoundException::new);
 	}
 }

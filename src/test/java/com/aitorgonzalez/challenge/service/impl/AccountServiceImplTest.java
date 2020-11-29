@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.aitorgonzalez.challenge.model.Account;
 import com.aitorgonzalez.challenge.model.Address;
@@ -25,7 +26,7 @@ import com.aitorgonzalez.challenge.repository.AccountRepository;
 import com.aitorgonzalez.challenge.vo.AccountVO;
 import com.aitorgonzalez.challenge.vo.AddressVO;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
 public class AccountServiceImplTest {
 
 	Account account = null;

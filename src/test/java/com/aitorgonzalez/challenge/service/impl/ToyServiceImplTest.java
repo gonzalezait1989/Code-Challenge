@@ -12,12 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.aitorgonzalez.challenge.model.Toy;
 import com.aitorgonzalez.challenge.repository.ToyRepository;
 import com.aitorgonzalez.challenge.vo.ToyVO;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
 public class ToyServiceImplTest {
 
 	private Toy toy;

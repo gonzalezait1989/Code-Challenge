@@ -12,9 +12,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.integration.support.MessageBuilder;
 
+import com.aitorgonzalez.challenge.factory.PokemonApiClientManager;
 import com.aitorgonzalez.challenge.messaging.producers.PokemonMessageProducer;
 
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
@@ -29,11 +32,11 @@ import me.sargunvohra.lib.pokekotlin.model.PokemonStat;
 import me.sargunvohra.lib.pokekotlin.model.PokemonType;
 import me.sargunvohra.lib.pokekotlin.model.VersionGameIndex;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PokemonApiClientManager.class)
 public class PokemonServiceImplTest {
 
 	PokeApiClient pokeApiClient = Mockito.mock(PokeApiClient.class);
-
 	@Mock
 	private PokemonMessageProducer pokemonMessageProducer;
 
@@ -87,6 +90,9 @@ public class PokemonServiceImplTest {
 				sprites);
 
 		NamedApiResourceList namedResourceApiList = new NamedApiResourceList(count, next, previous, results);
+		
+		PowerMockito.mockStatic(PokemonApiClientManager.class);
+		when(PokemonApiClientManager.getPokemonApiClient()).thenReturn(pokeApiClient);
 		when(pokeApiClient.getPokemonList(0, 100)).thenReturn(namedResourceApiList);
 		when(pokeApiClient.getPokemon(1)).thenReturn(bulbasaur);
 		when(pokeApiClient.getPokemon(4)).thenReturn(charmander);

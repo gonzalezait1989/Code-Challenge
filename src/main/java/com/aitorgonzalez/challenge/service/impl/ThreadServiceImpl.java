@@ -3,8 +3,8 @@ package com.aitorgonzalez.challenge.service.impl;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -25,11 +25,11 @@ public class ThreadServiceImpl implements ThreadService {
 
 		// Linkedlist in order to keep the order of the thread info as the threads
 		// finish
-		List<ThreadInfoVO> threadInfoVOs = new LinkedList<ThreadInfoVO>();
+		List<ThreadInfoVO> threadInfoVOs = new LinkedList<>();
 
 		// Launches 3 concurrent threads
 		ExecutorService executor = Executors.newFixedThreadPool(3);
-		List<Future<ThreadInfo>> futures = new ArrayList<Future<ThreadInfo>>();
+		List<Future<ThreadInfo>> futures = new ArrayList<>();
 
 		for (int i = 0; i < 3; i++) {
 			Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 1");
@@ -40,15 +40,14 @@ public class ThreadServiceImpl implements ThreadService {
 		threadInfoVOs.addAll(futures.parallelStream().map(future -> {
 			try {
 				return this.getThreadInfoVO(future.get());
-			} catch (InterruptedException | ExecutionException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
-		}).filter(threadInfo -> threadInfo != null).collect(Collectors.toList()));
+		}).filter(Objects::nonNull).collect(Collectors.toList()));
 
 		// Launches one thread
 		executor = Executors.newFixedThreadPool(1);
-		futures = new ArrayList<Future<ThreadInfo>>();
 		Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 2");
 
 		Future<ThreadInfo> future = executor.submit(callable);
@@ -56,7 +55,7 @@ public class ThreadServiceImpl implements ThreadService {
 		// Recovers it status
 		try {
 			threadInfoVOs.add(this.getThreadInfoVO(future.get()));
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		executor.shutdown();

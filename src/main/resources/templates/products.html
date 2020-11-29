@@ -20,11 +20,11 @@
   <template id="product">
     <div>
       <h2>{{ product.name }}</h2>
-      <b>Description: </b>
+      <strong>Description: </strong>
       <div>{{ product.description }}</div>
-      <b>Stock: </b>
+      <strong>Stock: </strong>
       <div>{{ product.stock }}</div>
-      <b>Price:</b>
+      <strong>Price:</strong>
       <div>{{ product.price }}<span class="glyphicon glyphicon-euro"></span></div>
       <br/>
       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -50,19 +50,18 @@
         </div>
       </div>
       <table class="table">
+      <caption>Products table</caption>
         <thead>
         <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Stock</th>
-          <th>Price</th>
-          <th class="col-sm-2">Actions</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Price</th>
+          <th scope="col" class="col-sm-2">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="product in filteredProducts">
-          <!-- tr v-for="product in products" -->
-          <!-- tr v-for="product in products | filterBy searchKey in 'name'" -->
           <td>
             <a>
               <router-link :to="{name: 'product', params: {product_id: product.id}}">{{ product.name }}</router-link>

@@ -1,17 +1,22 @@
 package com.aitorgonzalez.challenge.exceptions;
 
-import org.springframework.validation.Errors;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+
+import lombok.Getter;
+
+@Getter
 public class InvalidRequestException extends RuntimeException {
-	private static final long serialVersionUID = 1101562229836639420L;
-	private final Errors errors;
+	private static final long serialVersionUID = 8563759831034885388L;
+
+	private final Map<String, String> fieldErrors = new HashMap<>();
 
 	public InvalidRequestException(Errors errors) {
-		super("");
-		this.errors = errors;
-	}
-
-	public Errors getErrors() {
-		return errors;
+		for (FieldError error : errors.getFieldErrors()) {
+			fieldErrors.put(error.getField(), error.getDefaultMessage());
+		}
 	}
 }

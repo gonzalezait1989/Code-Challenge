@@ -45,8 +45,7 @@ public class PokemonSearchConsumer {
 	public Message<List<PokemonVO>> receive(String payload) {
 		Optional<List<PokemonVO>> pokemons = pokemonService.findByName(payload);
 		if (pokemons.isPresent()) {
-			Message<List<PokemonVO>> message = MessageBuilder.withPayload(pokemons.get()).build();
-			return message;
+			return MessageBuilder.withPayload(pokemons.get()).build();
 		}
 		return null;
 	}

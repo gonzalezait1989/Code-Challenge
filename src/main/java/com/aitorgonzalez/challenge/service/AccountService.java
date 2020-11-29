@@ -6,7 +6,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aitorgonzalez.challenge.model.Account;
+import com.aitorgonzalez.challenge.model.Address;
 import com.aitorgonzalez.challenge.vo.AccountVO;
+import com.aitorgonzalez.challenge.vo.AddressVO;
 
 /**
  * Service to manage Accounts.
@@ -60,16 +62,17 @@ public interface AccountService {
 	 * @return
 	 */
 	default Account getAccount(AccountVO accountVO) {
-		return accountVO != null
-				? Account.builder().id(accountVO.getId()).created(accountVO.getCreated())
-						.updated(accountVO.getUpdated()).age(
-								accountVO.getAge())
-						.email(accountVO.getEmail()).name(accountVO.getName())
-						.addresses(accountVO.getAddresses() != null ? accountVO.getAddresses().parallelStream()
-								.map(addressVO -> AddressService.getAddress(addressVO)).collect(Collectors.toList())
-								: Collections.emptyList())
-						.build()
-				: Account.builder().build();
+		if (accountVO == null)
+			return Account.builder().build();
+		List<Address> addresses;
+		if (accountVO.getAddresses() == null || accountVO.getAddresses().isEmpty()) {
+			addresses = Collections.emptyList();
+		} else {
+			addresses = accountVO.getAddresses().parallelStream().map(this::getAddress).collect(Collectors.toList());
+		}
+		return Account.builder().id(accountVO.getId()).created(accountVO.getCreated()).updated(accountVO.getUpdated())
+				.age(accountVO.getAge()).email(accountVO.getEmail()).name(accountVO.getName()).addresses(addresses)
+				.build();
 	}
 
 	/**
@@ -79,13 +82,33 @@ public interface AccountService {
 	 * @return
 	 */
 	default AccountVO getAccountVO(Account account) {
-		return account != null ? AccountVO.builder().created(account.getCreated()).updated(account.getUpdated())
-				.id(account.getId()).age(account.getAge()).email(account.getEmail()).name(account.getName())
-				.addresses(account.getAddresses() != null ? account.getAddresses().parallelStream()
-						.map(address -> AddressService.getAddressVO(address)).collect(Collectors.toList())
-						: Collections.emptyList())
-				.build() : AccountVO.builder().build();
+		if (account == null)
+			return AccountVO.builder().build();
+		List<AddressVO> addresses;
+		if (account.getAddresses() == null || account.getAddresses().isEmpty()) {
+			addresses = Collections.emptyList();
+		} else {
+			addresses = account.getAddresses().parallelStream().map(this::getAddressVO).collect(Collectors.toList());
+		}
+		return AccountVO.builder().created(account.getCreated()).updated(account.getUpdated()).id(account.getId())
+				.age(account.getAge()).email(account.getEmail()).name(account.getName()).addresses(addresses).build();
 	}
+
+	/**
+	 * Gets an Address from an AddressVO
+	 * 
+	 * @param address the address to transform
+	 * @return the Address to return
+	 */
+	Address getAddress(AddressVO addressVO);
+
+	/**
+	 * Gets an AddressVO from an Address
+	 * 
+	 * @param address the address to transform
+	 * @return the AddressVO to return
+	 */
+	AddressVO getAddressVO(Address address);
 
 	/**
 	 * Saves one Account with it's Addresses (if any)

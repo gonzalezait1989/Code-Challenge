@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,41 +17,27 @@ import javax.persistence.Temporal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "COMPANY")
 @Data
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-public class Account {
+public class Company {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Address> addresses;
-
-	@Column(name = "age__c")
-	private Integer age;
-
-	@Column(name = "email__c")
-	private String email;
-
 	@Column(name = "name__c")
 	private String name;
 
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Account> accounts;
 	
-	@JsonIgnore
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id")
-	private Company company;
-
 	@CreationTimestamp
 	@Column(name = "created__c", updatable = false)
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -63,5 +47,6 @@ public class Account {
 	@Column(name = "updated__c")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date updated;
-
 }
+
+

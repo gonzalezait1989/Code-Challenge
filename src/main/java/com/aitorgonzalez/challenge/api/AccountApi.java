@@ -48,7 +48,7 @@ public class AccountApi {
 	}
 
 	@DeleteMapping("/{id:[0-9]+}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
+	public ResponseEntity<Object> delete(@PathVariable Long id) {
 		return accountService.findById(id).map(accountFromDB -> {
 			accountService.deleteById(id);
 			return ResponseEntity.noContent().build();
@@ -56,25 +56,21 @@ public class AccountApi {
 	}
 
 	@GetMapping
-	public ResponseEntity<HashMap> findAll() {
+	public ResponseEntity<HashMap<String, Object>> findAll() {
 		List<AccountVO> accounts = accountService.findAll();
-		return ResponseEntity.ok(new HashMap<String, Object>() {
-			{
-				put("accounts", accounts);
-			}
-		});
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("accounts", accounts);
+		return ResponseEntity.ok(map);
 	}
 
 	@GetMapping("/email/{email}")
 	public ResponseEntity<AccountVO> findByEmail(@Email @PathVariable String email) {
-		return accountService.findByEmail(email).map(account -> ResponseEntity.ok(account))
-				.orElseThrow(ResourceNotFoundException::new);
+		return accountService.findByEmail(email).map(ResponseEntity::ok).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	@GetMapping("/{id:[0-9]+}")
 	public ResponseEntity<AccountVO> findById(@PathVariable Long id) {
-		return accountService.findById(id).map(account -> ResponseEntity.ok(account))
-				.orElseThrow(ResourceNotFoundException::new);
+		return accountService.findById(id).map(ResponseEntity::ok).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	@PutMapping("/{id:[0-9]+}")

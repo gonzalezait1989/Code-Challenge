@@ -30,7 +30,7 @@ target
 .vscode/
 
 #eclipse/sts
-.settings/
+.settings
 .project
 .classpath
 .factorypath

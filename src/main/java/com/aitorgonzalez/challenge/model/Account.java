@@ -35,9 +35,6 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Address> addresses;
 
 	@Column(name = "age__c")
 	private Integer age;
@@ -47,13 +44,15 @@ public class Account {
 
 	@Column(name = "name__c")
 	private String name;
-
 	
 	@JsonIgnore
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id")
+	@ManyToOne
+	@JoinColumn(name = "company_id", referencedColumnName="id", nullable = false)
 	private Company company;
 
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Address> addresses;
+	
 	@CreationTimestamp
 	@Column(name = "created__c", updatable = false)
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)

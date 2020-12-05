@@ -3,9 +3,10 @@ package com.aitorgonzalez.challenge.vo;
 import java.util.Date;
 import java.util.List;
 
-import com.aitorgonzalez.challenge.model.Account;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +15,24 @@ import lombok.Data;
 @Builder
 @lombok.AllArgsConstructor
 @lombok.NoArgsConstructor
-@JacksonXmlRootElement(localName = "Company")
+@XmlRootElement(name = "Company")
 public class CompanyVO {
 	
-	@JacksonXmlProperty(isAttribute = true)
+	@XmlElement(type = Long.class)
 	private Long id;
 	
-	@JacksonXmlProperty
+	@XmlElement
 	private String name;
 	
-	@JacksonXmlProperty
+	@XmlElementWrapper(name="accounts")
+    @XmlElement(name="account")
 	private List<AccountVO> accounts;
 	
-	@JacksonXmlProperty
+	@XmlElement(type = Date.class)
+	@XmlSchemaType(name="date")
 	private Date created;
 	
-	@JacksonXmlProperty
+	@XmlElement(type = Date.class)
+	@XmlSchemaType(name="date")
 	private Date updated;
 }

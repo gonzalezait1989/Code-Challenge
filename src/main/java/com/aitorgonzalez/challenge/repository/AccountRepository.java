@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.Email;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.aitorgonzalez.challenge.model.Account;
@@ -15,7 +15,7 @@ import com.aitorgonzalez.challenge.model.Account;
  * @author aitor
  */
 @Repository
-public interface AccountRepository extends CrudRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	/**
 	 * Finds an account by the email associated to the account.

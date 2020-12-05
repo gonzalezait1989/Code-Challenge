@@ -2,13 +2,12 @@ package com.aitorgonzalez.challenge.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.aitorgonzalez.challenge.model.Company;
-import com.aitorgonzalez.challenge.vo.CompanyVO;
 
-public interface CompanyRepository extends CrudRepository<Company, Long>  {
+public interface CompanyRepository extends JpaRepository<Company, Long>  {
 
-	Optional<CompanyVO> findByName(String name);
+	Optional<Company> findByName(String name);
 
 }

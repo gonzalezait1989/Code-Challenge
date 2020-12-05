@@ -42,7 +42,7 @@ public class ProductApi {
 			throw new InvalidRequestException(bindingResult);
 		}
 		if (productService.findByName(product.getName()).isPresent()) {
-			bindingResult.rejectValue("product", "DUPLICATED", "product name already exists");
+			bindingResult.rejectValue("name", "DUPLICATED", "product name already exists");
 			throw new InvalidRequestException(bindingResult);
 		}
 		return ResponseEntity.ok(productService.save(product));

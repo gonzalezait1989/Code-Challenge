@@ -49,7 +49,7 @@ public class CompanyApi {
 			throw new InvalidRequestException(bindingResult);
 		}
 		if (companyService.findByName(company.getName()).isPresent()) {
-			bindingResult.rejectValue("company", "DUPLICATED", "company name already exists");
+			bindingResult.rejectValue("name", "DUPLICATED", "company name already exists");
 			throw new InvalidRequestException(bindingResult);
 		}
 		return ResponseEntity.ok(companyService.save(company));

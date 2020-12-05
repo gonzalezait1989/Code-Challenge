@@ -1,6 +1,6 @@
 package com.aitorgonzalez.challenge.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.aitorgonzalez.challenge.model.Address;
@@ -11,6 +11,6 @@ import com.aitorgonzalez.challenge.model.Address;
  * @author aitor
  */
 @Repository
-public interface AddressRepository extends CrudRepository<Address, Long> {
+public interface AddressRepository extends JpaRepository<Address, Long> {
 
 }

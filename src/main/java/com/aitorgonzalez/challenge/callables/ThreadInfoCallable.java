@@ -16,9 +16,11 @@ public class ThreadInfoCallable implements Callable<ThreadInfo> {
 	private static final AtomicLong ai1 = new AtomicLong();
 
 	private String stepName;
+	private Long timeWait;
 
-	public ThreadInfoCallable(String stepName) {
+	public ThreadInfoCallable(String stepName, Long timeWait) {
 		this.stepName = stepName;
+		this.timeWait = timeWait;
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class ThreadInfoCallable implements Callable<ThreadInfo> {
 		threadInfo.setThreadNo(threadNo);
 		threadInfo.setStepName(stepName);
 		threadInfo.setStart(Calendar.getInstance().getTime());
-		Thread.sleep(5000);
+		Thread.sleep(this.timeWait);
 		threadInfo.setFinish(Calendar.getInstance().getTime());
 		return threadInfo;
 	}

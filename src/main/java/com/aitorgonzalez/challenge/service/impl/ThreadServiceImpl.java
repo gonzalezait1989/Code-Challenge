@@ -21,7 +21,7 @@ import com.aitorgonzalez.challenge.vo.ThreadInfoVO;
 public class ThreadServiceImpl implements ThreadService {
 
 	@Override
-	public List<ThreadInfoVO> runThreads() {
+	public List<ThreadInfoVO> runThreads(Long timeWait) {
 
 		// Linkedlist in order to keep the order of the thread info as the threads
 		// finish
@@ -32,7 +32,7 @@ public class ThreadServiceImpl implements ThreadService {
 		List<Future<ThreadInfo>> futures = new ArrayList<>();
 
 		for (int i = 0; i < 3; i++) {
-			Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 1");
+			Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 1", timeWait);
 			Future<ThreadInfo> future = executor.submit(callable);
 			futures.add(future);
 		}
@@ -48,7 +48,7 @@ public class ThreadServiceImpl implements ThreadService {
 
 		// Launches one thread
 		executor = Executors.newFixedThreadPool(1);
-		Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 2");
+		Callable<ThreadInfo> callable = new ThreadInfoCallable("Step 2", timeWait);
 
 		Future<ThreadInfo> future = executor.submit(callable);
 

@@ -7,10 +7,21 @@ import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 public class PokemonApiClientManager {
 
 
-	private PokemonApiClientManager() {
-		
+	public static void destroyAll() {
+		PokemonApiClientPoolFactory.poolFactory().clear();
 	}
 	
+	public static void destroyPokemonApiClient(PokeApiClient pokeApiClient) {
+		try {
+			log.debug("force destroy PokemonApi client [{}]", pokeApiClient.hashCode());
+			PokemonApiClientPoolFactory.poolFactory().invalidateObject(pokeApiClient);
+			PokemonApiClientPoolFactory.logPool();
+
+		} catch (Exception ex) {
+			log.error("Exception when destroying PokemonApiClient client", ex);
+		}
+	}
+
 	public static PokeApiClient getPokemonApiClient() {
 
 		try {
@@ -41,18 +52,7 @@ public class PokemonApiClientManager {
 		}
 	}
 
-	public static void destroyAll() {
-		PokemonApiClientPoolFactory.poolFactory().clear();
-	}
-
-	public static void destroyPokemonApiClient(PokeApiClient pokeApiClient) {
-		try {
-			log.debug("force destroy PokemonApi client [{}]", pokeApiClient.hashCode());
-			PokemonApiClientPoolFactory.poolFactory().invalidateObject(pokeApiClient);
-			PokemonApiClientPoolFactory.logPool();
-
-		} catch (Exception ex) {
-			log.error("Exception when destroying PokemonApiClient client", ex);
-		}
+	private PokemonApiClientManager() {
+		
 	}
 }

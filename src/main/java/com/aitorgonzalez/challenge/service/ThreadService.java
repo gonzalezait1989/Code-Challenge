@@ -25,5 +25,5 @@ public interface ThreadService {
 	 * 
 	 * @return a List of ThreadInfoVO with the execution information.
 	 */
-	public List<ThreadInfoVO> runThreads();
+	public List<ThreadInfoVO> runThreads(Long timeWait);
 }

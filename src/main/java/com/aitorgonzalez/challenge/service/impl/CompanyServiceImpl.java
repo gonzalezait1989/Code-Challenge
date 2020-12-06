@@ -22,10 +22,15 @@ import com.aitorgonzalez.challenge.vo.CompanyVO;
 public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
-	private CompanyRepository companyRepository;
+	private AccountService accountService;
 
 	@Autowired
-	private AccountService accountService;
+	private CompanyRepository companyRepository;
+
+	@Override
+	public void deleteById(Long id) {
+		this.companyRepository.deleteById(id);
+	}
 
 	@Override
 	public List<CompanyVO> findAll() {
@@ -42,6 +47,16 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Optional<CompanyVO> findByName(String name) {
 		return this.companyRepository.findByName(name).map(this::getCompanyVO);
+	}
+
+	@Override
+	public Account getAccount(AccountVO accountVO) {
+		return accountService.getAccount(accountVO);
+	}
+
+	@Override
+	public AccountVO getAccountVO(Account address) {
+		return accountService.getAccountVO(address);
 	}
 
 	@Override
@@ -68,17 +83,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		this.companyRepository.deleteById(id);
-	}
-
-	@Override
-	public Account getAccount(AccountVO accountVO) {
-		return accountService.getAccount(accountVO);
-	}
-
-	@Override
-	public AccountVO getAccountVO(Account address) {
-		return accountService.getAccountVO(address);
+	public boolean existsById(Long id) {
+		return this.companyRepository.existsById(id);
 	}
 }

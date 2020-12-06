@@ -18,12 +18,6 @@ import lombok.Data;
 @XmlRootElement(name = "Company")
 public class CompanyVO {
 	
-	@XmlElement(type = Long.class)
-	private Long id;
-	
-	@XmlElement
-	private String name;
-	
 	@XmlElementWrapper(name="accounts")
     @XmlElement(name="account")
 	private List<AccountVO> accounts;
@@ -31,6 +25,12 @@ public class CompanyVO {
 	@XmlElement(type = Date.class)
 	@XmlSchemaType(name="date")
 	private Date created;
+	
+	@XmlElement(type = Long.class)
+	private Long id;
+	
+	@XmlElement
+	private String name;
 	
 	@XmlElement(type = Date.class)
 	@XmlSchemaType(name="date")

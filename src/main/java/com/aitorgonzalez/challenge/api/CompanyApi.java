@@ -35,14 +35,6 @@ public class CompanyApi {
 	@Autowired
 	private CompanyService companyService;
 
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public ResponseEntity<HashMap<String, Object>> findAll() {
-		List<CompanyVO> companies = companyService.findAll();
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("companies", companies);
-		return ResponseEntity.ok(map);
-	}
-
 	@PostMapping(produces = MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<CompanyVO> create(@Valid @RequestBody CompanyVO company, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -54,6 +46,22 @@ public class CompanyApi {
 		}
 		return ResponseEntity.ok(companyService.save(company));
 	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> delete(@PathVariable Long id) {
+		return companyService.findById(id).map(companyFromDB -> {
+			companyService.deleteById(companyFromDB.getId());
+			return ResponseEntity.noContent().build();
+		}).orElseThrow(ResourceNotFoundException::new);
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<HashMap<String, Object>> findAll() {
+		List<CompanyVO> companies = companyService.findAll();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("companies", companies);
+		return ResponseEntity.ok(map);
+	}
 	
 	@PutMapping(produces = MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<CompanyVO> replace(@Valid @RequestBody CompanyVO company, BindingResult bindingResult) {
@@ -61,13 +69,5 @@ public class CompanyApi {
 			throw new InvalidRequestException(bindingResult);
 		}
 		return ResponseEntity.ok(companyService.save(company));
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Long id) {
-		return companyService.findById(id).map(CompanyFromDB -> {
-			companyService.deleteById(id);
-			return ResponseEntity.noContent().build();
-		}).orElseThrow(ResourceNotFoundException::new);
 	}
 }

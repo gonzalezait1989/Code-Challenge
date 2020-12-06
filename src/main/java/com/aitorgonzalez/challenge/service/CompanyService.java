@@ -13,12 +13,51 @@ import com.aitorgonzalez.challenge.vo.CompanyVO;
 public interface CompanyService {
 
 	/**
+	 * Deletes an Company by it's Id.
+	 * 
+	 * @param id the id of the Company.
+	 */
+	public void deleteById(Long id);
+	
+	/**
 	 * Gets all the Companies.
 	 * 
 	 * @return a list of Companies.
 	 */
 	public List<CompanyVO> findAll();
-	
+
+	/**
+	 * Finds an CompanyVO by id.
+	 * 
+	 * @param id the id of the CompanyVO.
+	 * @return an Optional of the CompanyVO.
+	 */
+	public Optional<CompanyVO> findById(Long id);
+
+	/**
+	 * Finds an CompanyVO by name.
+	 * 
+	 * @param name the name of the CompanyVO.
+	 * @return an Optional of the CompanyVO.
+	 */
+	public Optional<CompanyVO> findByName(String name);
+
+	/**
+	 * Gets an Account from an AccountVO
+	 * 
+	 * @param accountVO the account to transform
+	 * @return the Account to return
+	 */
+	Account getAccount(AccountVO accountVO);
+
+	/**
+	 * Gets an AddressVO from an Address
+	 * 
+	 * @param address the address to transform
+	 * @return the AddressVO to return
+	 */
+	AccountVO getAccountVO(Account address);
+
 	/**
 	 * Transform Company to CompanyVO
 	 * 
@@ -60,49 +99,17 @@ public interface CompanyService {
 	}
 
 	/**
-	 * Gets an Account from an AccountVO
-	 * 
-	 * @param accountVO the account to transform
-	 * @return the Account to return
-	 */
-	Account getAccount(AccountVO accountVO);
-
-	/**
-	 * Gets an AddressVO from an Address
-	 * 
-	 * @param address the address to transform
-	 * @return the AddressVO to return
-	 */
-	AccountVO getAccountVO(Account address);
-
-	/**
 	 * Saves one Company with it's Accounts (if any)
 	 * 
 	 * @param companyVO the account to persist.
 	 * @return the persisted company.
 	 */
 	public CompanyVO save(CompanyVO companyVO);
-
+	
 	/**
-	 * Finds an CompanyVO by name.
-	 * 
-	 * @param name the name of the CompanyVO.
-	 * @return an Optional of the CompanyVO.
+	 * Returns if a company exists by Id or not
+	 * @param id the Id of the company to check.
+	 * @return true if the company exists, false otherwise.
 	 */
-	public Optional<CompanyVO> findByName(String name);
-
-	/**
-	 * Finds an CompanyVO by id.
-	 * 
-	 * @param id the id of the CompanyVO.
-	 * @return an Optional of the CompanyVO.
-	 */
-	public Optional<CompanyVO> findById(Long id);
-
-	/**
-	 * Deletes an Company by it's Id.
-	 * 
-	 * @param id the id of the Company.
-	 */
-	public void deleteById(Long id);
+	public boolean existsById(Long id);
 }

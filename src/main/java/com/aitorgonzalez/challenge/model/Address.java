@@ -29,15 +29,11 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class Address {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
 	@JsonIgnore
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName="id", nullable = false)
 	private Account account;
-
+	
 	@Column(name = "address__c")
 	private String addressDetails;
 
@@ -45,6 +41,10 @@ public class Address {
 	@Column(name = "created__c", updatable = false)
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date created;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@UpdateTimestamp
 	@Column(name = "updated__c")

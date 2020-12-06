@@ -32,31 +32,31 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class Account {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Address> addresses;
 
 	@Column(name = "age__c")
 	private Integer age;
 
-	@Column(name = "email__c")
-	private String email;
-
-	@Column(name = "name__c")
-	private String name;
-	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "company_id", referencedColumnName="id", nullable = false)
 	private Company company;
 
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Address> addresses;
-	
 	@CreationTimestamp
 	@Column(name = "created__c", updatable = false)
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date created;
+	
+	@Column(name = "email__c")
+	private String email;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(name = "name__c")
+	private String name;
 	
 	@UpdateTimestamp
 	@Column(name = "updated__c")

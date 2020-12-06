@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.aitorgonzalez.challenge.vo.ThreadInfoVO;
@@ -27,7 +26,7 @@ public class ThreadServiceImplTest {
 
 	@Test
 	public void testRunThreads() throws Exception {
-		List<ThreadInfoVO> threadInfoList = this.threadService.runThreads();
+		List<ThreadInfoVO> threadInfoList = this.threadService.runThreads(1000L);
 		assertThat(threadInfoList).isNotNull().hasSize(4);
 		assertThat(threadInfoList.parallelStream().filter(threadInfo -> threadInfo.getStepName().equals("Step 1")))
 				.hasSize(3);

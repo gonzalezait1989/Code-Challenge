@@ -28,13 +28,6 @@ import lombok.Data;
 @lombok.NoArgsConstructor
 public class Company {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@Column(name = "name__c")
-	private String name;
-
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Account> accounts;
 	
@@ -42,6 +35,13 @@ public class Company {
 	@Column(name = "created__c", updatable = false)
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date created;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(name = "name__c")
+	private String name;
 	
 	@UpdateTimestamp
 	@Column(name = "updated__c")
